@@ -1,0 +1,226 @@
+<section>
+  <div class="max-w-7xl mx-auto px-6 py-10">
+
+    <div class="mb-8">
+      <div class="flex items-center gap-3 text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <div class="bg-[#138D46] text-white w-12 h-12 flex items-center justify-center rounded-xl">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+        <h1>{{ 'CART.TITLE' | translate }}</h1>
+      </div>
+      <p class="text-gray-500 dark:text-gray-400 text-lg">
+        {{ 'CART.YOU_HAVE' | translate }}
+        <span class="font-bold text-[#138D46] dark:text-emerald-400">{{ cartDetails().products.length}} {{ 'CART.ITEMS_COUNT' | translate }}</span> {{ 'CART.IN_YOUR_CART' | translate }}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <div class="lg:col-span-8 flex flex-col gap-5">
+
+        @for (item of cartDetails().products; track item.product.id) {
+          <div
+            class="flex flex-col sm:flex-row items-center gap-6 border border-gray-200 dark:border-slate-700 rounded-2xl p-5 bg-white dark:bg-slate-800 shadow-sm"
+          >
+
+            <div class="flex flex-col items-center gap-3 shrink-0">
+              <div
+                class="w-32 h-32 bg-gray-50 dark:bg-slate-700/50 rounded-xl flex items-center justify-center border border-gray-100 dark:border-slate-600 overflow-hidden"
+              >
+                <img
+                  [src]="item.product.imageCover"
+                  [alt]="item.product.title"
+                  class="object-cover mix-blend-multiply"
+                />
+              </div>
+              @if (item.product.quantity > 0) {
+                <span
+                  class="bg-[#138D46] text-white text-2xs font-bold px-3 py-1 rounded-full flex items-center gap-1"
+                >
+                  <i class="fa-solid fa-check"></i> {{ 'CART.IN_STOCK' | translate }}
+                </span>
+              } @else {
+                <span
+                  class="bg-danger text-white text-2xs font-bold px-3 py-1 rounded-full flex items-center gap-1"
+                >
+                  <i class="fa-solid fa-check"></i> {{ 'CART.OUT_OF_STOCK' | translate }}
+                </span>
+              }
+            </div>
+
+            <div class="flex-1 w-full">
+              <h3 class="font-bold text-xl text-gray-900 dark:text-white">{{ item.product.title }}</h3>
+              <div class="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mt-2">
+                <span
+                  class="bg-green-50 dark:bg-green-900/30 text-[#138D46] dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-medium"
+                  >{{ item.product.category.name }}</span
+                >
+                <span class="text-gray-300 dark:text-gray-600">•</span>
+                <span class="text-xs">SKU: {{ item.product.id.slice(0, 6) }}</span>
+              </div>
+              <div class="mt-4 font-bold text-[#138D46] dark:text-emerald-400 text-xl">
+                {{ item.price }} EGP <span class="text-xs text-gray-400 dark:text-gray-500 font-normal">{{ 'CART.PER_UNIT' | translate }}</span>
+              </div>
+            </div>
+
+            <div
+              class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto mt-4 sm:mt-0"
+            >
+              <div class="flex items-center border border-gray-200 dark:border-slate-600 rounded-lg overflow-hidden h-10">
+                <button
+                (click)="update(item.product.id, item.count-1)"
+                  class="px-3 h-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors focus:outline-none"
+                >
+                  <i class="fa-solid fa-minus text-xs"></i>
+                </button>
+
+                <span class="px-3 font-bold text-gray-900 dark:text-white min-w-10 text-center">{{
+                  item.count
+                }}</span>
+
+                <button
+                (click)="update(item.product.id, item.count+1)"
+
+                  class="px-3 h-full bg-[#138D46] text-white hover:bg-green-700 transition-colors focus:outline-none"
+                >
+                  <i class="fa-solid fa-plus text-xs"></i>
+                </button>
+              </div>
+
+              <div class="text-right min-w-16">
+                <div class="text-xs text-gray-400 dark:text-gray-500 mb-0.5">{{ 'CART.ITEM_TOTAL' | translate }}</div>
+                <div class="font-bold text-xl text-gray-900 dark:text-white">
+                  {{ item.count * item.price }} <span class="text-xs font-normal">EGP</span>
+                </div>
+              </div>
+
+              <button
+              (click)="removeItem(item.product.id)"
+                class="w-10 h-10 flex items-center justify-center bg-red-50 dark:bg-red-900/30 text-red-500 rounded-lg hover:bg-red-100 dark:hover:bg-red-800/40 transition-colors focus:outline-none"
+              >
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        }@empty {
+          	<div class="text-center px-4 max-w-md mx-auto">
+  <div class="mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-gray-50 dark:bg-slate-800 mb-8">
+    <i class="fa-solid fa-box-open text-6xl text-gray-300 dark:text-slate-600"></i>
+  </div>
+
+  <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">{{ 'CART.EMPTY_TITLE' | translate }}</h2>
+
+  <p class="text-gray-500 dark:text-gray-400 mb-10 text-lg leading-relaxed">
+    {{ 'CART.EMPTY_DESC' | translate }}
+  </p>
+
+  <button
+    routerLink="/shop"
+    class="inline-flex items-center justify-center gap-3 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-emerald-600 hover:-translate-y-0.5 focus:ring-4 focus:ring-emerald-100 focus:outline-none shadow-sm hover:shadow-md cursor-pointer"
+  >
+    {{ 'CART.START_SHOPPING' | translate }}
+    <i class="fa-solid fa-arrow-right"></i>
+  </button>
+</div>
+
+        }
+
+        <div class="flex items-center justify-between pt-4 mt-2">
+          <button
+            routerLink="/shop"
+            class="text-[#138D46] dark:text-green-400 font-medium hover:underline flex items-center gap-2 focus:outline-none"
+          >
+            <i class="fa-solid fa-arrow-left-long"></i> {{ 'CART.CONTINUE_SHOPPING' | translate }}
+          </button>
+          <button
+          (click)="clearItem()"
+            class="text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 font-medium flex items-center gap-2 transition-colors focus:outline-none"
+          >
+            <i class="fa-solid fa-trash-can text-sm"></i> {{ 'CART.CLEAR_ALL' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 overflow-hidden shadow-lg sticky top-6">
+          
+          <div class="bg-[#138D46] text-white p-6 pb-5">
+            <div class="flex items-center gap-3 font-bold text-xl mb-1">
+              <i class="fa-solid fa-bag-shopping"></i> {{ 'CART.ORDER_SUMMARY' | translate }}
+            </div>
+            <div class="text-sm text-green-50 font-medium opacity-90">
+              {{ cartDetails().products.length }} {{ 'CART.ITEMS_IN_CART' | translate }}
+            </div>
+          </div>
+
+          <div class="p-6">
+            
+            <div class="bg-emerald-50/80 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 p-4 rounded-2xl mb-6 flex items-center gap-4 border border-emerald-100 dark:border-emerald-800/30">
+              <div class="bg-emerald-100/80 dark:bg-emerald-800/50 w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-truck text-emerald-600 dark:text-emerald-400"></i>
+              </div>
+              <div>
+                <div class="font-bold text-sm leading-tight">{{ 'CART.FREE_SHIPPING' | translate }}!</div>
+                <div class="text-xs mt-0.5 opacity-80">{{ 'CART.FREE_SHIPPING_DESC' | translate }}</div>
+              </div>
+            </div>
+
+            <div class="space-y-4 mb-6">
+              <div class="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
+                <span>{{ 'CART.SUBTOTAL' | translate }}</span>
+                <span class="text-slate-900 dark:text-white">{{ cartDetails().totalCartPrice }} EGP</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
+                <span>{{ 'CART.SHIPPING' | translate }}</span>
+                <span class="text-[#138D46] dark:text-green-400 font-bold tracking-tight uppercase text-sm">{{ 'CART.FREE' | translate }}</span>
+              </div>
+            </div>
+
+            <div class="border-t border-dashed border-gray-200 dark:border-slate-700 pt-5 mb-8 flex justify-between items-center">
+              <span class="font-bold text-slate-900 dark:text-white text-lg tracking-tight">{{ 'CART.TOTAL' | translate }}</span>
+              <div class="text-right">
+                <span class="font-black text-3xl text-slate-900 dark:text-white tracking-tighter">
+                  {{ cartDetails().totalCartPrice }}
+                </span>
+                <span class="text-xs font-bold text-gray-400 dark:text-gray-500 ml-1">EGP</span>
+              </div>
+            </div>
+
+            <button class="w-full py-3.5 mb-5 border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-xl text-gray-500 dark:text-slate-400 font-bold hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-all flex items-center justify-center gap-2 group">
+              <i class="fa-solid fa-tag group-hover:scale-110 transition-transform"></i>
+              {{ 'CART.APPLY_PROMO' | translate }}
+            </button>
+
+            <button
+              [routerLink]="['/checkout']"
+              class="w-full py-4.5 bg-[#138D46] text-white font-bold rounded-2xl hover:bg-green-700 transition-all shadow-[0_10px_20px_-5px_rgba(19,141,70,0.3)] hover:shadow-[0_15px_25px_-5px_rgba(19,141,70,0.4)] flex items-center justify-center gap-2 focus:ring-4 focus:ring-green-100 dark:focus:ring-emerald-900/20 active:scale-[0.98]"
+            >
+              <i class="fa-solid fa-lock text-green-200"></i> {{ 'CART.SECURE_CHECKOUT' | translate }}
+            </button>
+
+            <div class="grid grid-cols-2 gap-4 mt-8 pt-2 border-t border-gray-50 dark:border-slate-700/50">
+              <div class="flex items-center justify-center gap-2 text-[10px] sm:text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                <i class="fa-solid fa-shield-halved text-emerald-500 text-sm"></i>
+                {{ 'CART.SECURE_PAYMENT' | translate }}
+              </div>
+              <div class="flex items-center justify-center gap-2 text-[10px] sm:text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider border-l border-gray-100 dark:border-slate-700/50 pl-2">
+                <i class="fa-solid fa-truck-fast text-blue-500 text-sm"></i>
+                {{ 'CART.FAST_DELIVERY' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center mt-8">
+           <button
+            routerLink="/shop"
+            class="text-[#138D46] dark:text-emerald-400 font-bold hover:underline flex items-center gap-2 transition-transform hover:-translate-x-1"
+          >
+            ← {{ 'CART.CONTINUE_SHOPPING' | translate }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

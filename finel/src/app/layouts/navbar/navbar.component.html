@@ -1,0 +1,418 @@
+<div class="w-full border-b border-gray-100 bg-gray-50 dark:bg-gray-900 dark:border-gray-800 px-6 py-2  text-xs sm:text-sm transition-colors duration-300">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+
+    <div class="flex items-center gap-6 text-gray-600 dark:text-gray-300">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-truck text-primary"></i>
+        <span>{{ 'NAVBAR.FREE_SHIPPING' | translate }}</span>
+      </div>
+      <div class="hidden md:flex items-center gap-2">
+        <i class="fas fa-gift text-primary"></i>
+        <span>{{ 'NAVBAR.NEW_ARRIVALS' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 text-gray-600 dark:text-gray-300">
+      <div class="hidden lg:flex items-center gap-4 border-r border-gray-200 dark:border-gray-700 pr-4">
+        <a href="tel:+18001234567" class="flex items-center gap-2 transition-colors hover:text-primary">
+          <i class="fas fa-phone-alt text-primary"></i>
+          +1 (800) 123-4567
+        </a>
+        <a href="mailto:support@freshcart.com" class="flex items-center gap-2 transition-colors hover:text-primary">
+          <i class="far fa-envelope text-primary"></i>
+          support@freshcart.com
+        </a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        @if (logged()) {
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5 font-medium text-emerald-600">
+              <i class="far fa-user"></i>
+              {{ userName() || 'User' }}
+            </span>
+            <button
+              (click)="logOut()"
+              class="flex items-center gap-1.5 font-medium transition-colors hover:text-red-500 cursor-pointer"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              {{ 'NAVBAR.SIGN_OUT' | translate }}
+            </button>
+          </div>
+        } @else {
+          <a
+            routerLink="/login"
+            class="flex items-center gap-1.5 font-medium transition-colors hover:text-primary cursor-pointer"
+          >
+            <i class="far fa-user"></i>
+            {{ 'NAVBAR.SIGN_IN' | translate }}
+          </a>
+          <a
+            routerLink="/register"
+            class="flex items-center gap-1.5 font-medium transition-colors hover:text-primary cursor-pointer"
+          >
+            <i class="fas fa-user-plus"></i>
+            {{ 'NAVBAR.SIGN_UP' | translate }}
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="sticky top-0 z-40 w-full border-b border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-800 px-6 py-4 font-sans transition-colors duration-300">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+
+    <a routerLink="/" class="shrink-0 cursor-pointer">
+      <img src="/assets/fresh-logo.svg" alt="FreshCart" class="h-7 md:h-8" />
+    </a>
+
+    <div class="hidden lg:block grow max-w-md">
+      <div class="group relative">
+        <input
+          #searchInput
+          (keyup.enter)="onSearch(searchInput.value)"
+          type="text"
+          [placeholder]="'NAVBAR.SEARCH_PLACEHOLDER' | translate"
+          class="w-full rounded-full border border-gray-200 bg-gray-50 px-6 py-2 pr-12 outline-none transition-all focus:border-emerald-500 focus:ring-emerald-500"
+        />
+        <button
+          (click)="onSearch(searchInput.value)"
+          class="absolute right-1 top-1 bottom-1 flex w-9 items-center justify-center rounded-full bg-emerald-600 text-white transition-colors hover:bg-emerald-700"
+        >
+          <i class="fas fa-search text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="hidden items-center gap-6 md:flex">
+      <a
+        routerLink="/"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="text-primary"
+        class="font-medium text-gray-700 dark:text-gray-300 transition-colors hover:text-emerald-600 dark:hover:text-emerald-500"
+        >{{ 'NAVBAR.HOME' | translate }}</a
+      >
+      <a
+        routerLink="/shop"
+        routerLinkActive="text-primary"
+        class="font-medium text-gray-700 dark:text-gray-300 transition-colors hover:text-emerald-600 dark:hover:text-emerald-500"
+        >{{ 'NAVBAR.SHOP' | translate }}</a
+      >
+      <div class="group relative">
+        <button
+          class="flex items-center gap-1 py-2 font-medium text-gray-700 transition-colors group-hover:text-emerald-600"
+        >
+          {{ 'NAVBAR.CATEGORIES' | translate }}
+          <i class="fas fa-chevron-down text-2xs transition-transform group-hover:rotate-180"></i>
+        </button>
+        <div
+          class="invisible absolute left-0 z-50 mt-0 w-56 rounded-xl border border-gray-100 bg-white opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:bg-gray-800 dark:border-gray-700"
+        >
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>
+              <a
+                routerLink="/categories"
+                class="block px-4 py-2.5 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-gray-700 transition-colors"
+                >{{ 'NAVBAR.ALL_CATEGORIES' | translate }}</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="['/category-products', '6439d2d167d9aa4ca970649f']"
+                class="block px-4 py-2.5 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-gray-700 transition-colors"
+                >{{ 'NAVBAR.ELECTRONICS' | translate }}</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="['/category-products', '6439d58a0049ad0b52b9003f']"
+                class="block px-4 py-2.5 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-gray-700 transition-colors"
+                >{{ 'NAVBAR.WOMENS_FASHION' | translate }}</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="['/category-products', '6439d5b90049ad0b52b90048']"
+                class="block px-4 py-2.5 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-gray-700 transition-colors"
+                >{{ 'NAVBAR.MENS_FASHION' | translate }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a
+        routerLink="/brands"
+        routerLinkActive="text-primary"
+        class="font-medium text-gray-700 dark:text-gray-300 transition-colors hover:text-emerald-600 dark:hover:text-emerald-500"
+        >{{ 'NAVBAR.BRANDS' | translate }}</a
+      >
+
+      <a
+        routerLink="/support"
+        routerLinkActive="!bg-emerald-50"
+        class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-emerald-50 transition-colors duration-200 group"
+      >
+        <div class="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-sm shrink-0 group-hover:bg-emerald-100 transition-colors">
+          <i class="fas fa-headset"></i>
+        </div>
+        <div class="leading-tight">
+          <div class="text-xs font-bold text-gray-700 dark:text-gray-300">{{ 'NAVBAR.SUPPORT' | translate }}</div>
+          <div class="text-emerald-600 font-semibold" style="font-size:0.65rem">{{ 'NAVBAR.SUPPORT_247' | translate }}</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2 md:gap-4">
+      <button
+        class="flex h-10 w-10 items-center justify-center rounded-full text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-100 dark:hover:bg-gray-800 lg:hidden"
+      >
+        <i class="fas fa-search text-lg"></i>
+      </button>
+
+      <button
+        (click)="toggleDarkMode()"
+        class="relative flex h-10 w-10 items-center justify-center rounded-full text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-emerald-600 dark:hover:text-emerald-400"
+      >
+        @if (isDarkMode()) {
+          <i class="fas fa-sun text-xl"></i>
+        } @else {
+          <i class="fas fa-moon text-xl"></i>
+        }
+      </button>
+
+      <div class="flex items-center rounded-full border border-gray-200 dark:border-gray-700 overflow-hidden text-xs font-bold">
+        <button
+          (click)="myTranslateService.changeLang('en')"
+          [class.bg-emerald-600]="myTranslateService.currentLang() === 'en'"
+          [class.text-white]="myTranslateService.currentLang() === 'en'"
+          [class.text-gray-500]="myTranslateService.currentLang() !== 'en'"
+          class="px-2.5 py-1.5 transition-all cursor-pointer duration-200"
+        >EN</button>
+        <button
+          (click)="myTranslateService.changeLang('ar')"
+          [class.bg-emerald-600]="myTranslateService.currentLang() === 'ar'"
+          [class.text-white]="myTranslateService.currentLang() === 'ar'"
+          [class.text-gray-500]="myTranslateService.currentLang() !== 'ar'"
+          class="px-2.5 py-1.5 transition-all cursor-pointer duration-200"
+        >AR</button>
+      </div>
+
+      <button
+        routerLink="/wishlist"
+        routerLinkActive="text-primary"
+        class="relative flex h-10 w-10 items-center justify-center rounded-full text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-emerald-600 dark:hover:text-emerald-400"
+      >
+        <i class="far fa-heart text-xl"></i>
+        <span
+          class="absolute right-1 top-1 rounded-full border-2 border-white dark:border-gray-900 bg-emerald-600 px-1.5 text-2xs font-bold text-white"
+          >{{wishlistCount()}}</span>
+      </button>
+      <button
+        routerLink="/cart"
+        routerLinkActive="text-primary"
+        class="relative flex h-10 w-10 items-center justify-center rounded-full text-gray-600 dark:text-gray-300 transition-all hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-emerald-600 dark:hover:text-emerald-400"
+      >
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span
+          class="absolute right-1 top-1 rounded-full border-2 border-white dark:border-gray-900 bg-emerald-600 px-1.5 text-2xs font-bold text-white"
+          >{{count()}}</span
+        >
+      </button>
+
+      @if (logged()) {
+        <div class="relative flex items-center pl-2 border-l border-gray-200 dark:border-gray-700">
+          <button
+            id="user-dropdown-button"
+            data-dropdown-toggle="user-dropdown"
+            class="flex items-center justify-center p-1 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all focus:ring-2 focus:ring-emerald-500"
+          >
+            <div class="w-9 h-9 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+              <i class="fas fa-user-circle text-2xl"></i>
+            </div>
+          </button>
+
+          <div
+            id="user-dropdown"
+            class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-xl shadow-xl border border-gray-100 dark:bg-gray-800 dark:divide-gray-700 dark:border-gray-700 min-w-56"
+          >
+            <div class="px-5 py-4">
+              <span class="block text-sm font-bold text-gray-900 dark:text-white">{{ userName() }}</span>
+              <span class="block text-xs font-medium text-gray-500 truncate dark:text-gray-400 mt-0.5">{{ userEmail() }}</span>
+            </div>
+            <ul class="py-2" aria-labelledby="user-dropdown-button">
+              <li>
+                <a routerLink="/settings" class="flex items-center gap-3 px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  <i class="far fa-user w-4 text-gray-400"></i>
+                  {{ 'NAVBAR.MY_PROFILE' | translate }}
+                </a>
+              </li>
+              <li>
+                <a routerLink="/cart" class="flex items-center gap-3 px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  <i class="fas fa-box w-4 text-gray-400"></i>
+                  {{ 'NAVBAR.MY_ORDERS' | translate }}
+                </a>
+              </li>
+              <li>
+                <a routerLink="/wishlist" class="flex items-center gap-3 px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 transition-colors">
+                  <i class="far fa-heart w-4 text-gray-400"></i>
+                  {{ 'NAVBAR.MY_WISHLIST' | translate }}
+                </a>
+              </li>
+              <li>
+                <a routerLink="/settings" class="flex items-center gap-3 px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700 transition-colors font-semibold text-emerald-600 dark:text-emerald-400">
+                  <i class="fas fa-cog w-4"></i>
+                  {{ 'NAVBAR.SETTINGS' | translate }}
+                </a>
+              </li>
+            </ul>
+            <div class="py-1">
+              <button
+                (click)="logOut()"
+                class="flex w-full items-center gap-3 px-5 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/10 transition-colors font-medium"
+              >
+                <i class="fas fa-sign-out-alt w-4"></i>
+                {{ 'NAVBAR.SIGN_OUT' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="hidden sm:flex items-center gap-4 pl-2 md:border-l md:border-gray-200 md:pl-4">
+          <a
+            routerLink="/login"
+            class="flex items-center gap-2 font-medium text-gray-700 dark:text-gray-300 transition-colors hover:text-emerald-600"
+          >
+            <i class="far fa-user text-lg"></i> {{ 'NAVBAR.SIGN_IN' | translate }}
+          </a>
+          <a
+            routerLink="/register"
+            class="flex items-center gap-2 font-medium text-gray-700 dark:text-gray-300 transition-colors hover:text-emerald-600"
+          >
+            <i class="fas fa-user-plus text-lg"></i> {{ 'NAVBAR.SIGN_UP' | translate }}
+          </a>
+        </div>
+      }
+
+      <button
+        type="button"
+        data-drawer-target="drawer-right"
+        data-drawer-show="drawer-right"
+        data-drawer-placement="right"
+        class="p-2 text-gray-600 hover:text-emerald-600 md:hidden focus:outline-none transition-colors"
+      >
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div
+  id="drawer-right"
+  class="fixed top-0 right-0 z-50 h-screen w-80 translate-x-full overflow-y-auto bg-white p-6 shadow-2xl transition-transform"
+  tabindex="-1"
+>
+
+  <div class="mb-8 flex items-center justify-between">
+    <img src="/assets/fresh-logo.svg" alt="logo" class="h-7 cursor-pointer" routerLink="/" (click)="toggleMenu()" data-drawer-hide="drawer-right" />
+    <button
+      type="button"
+      data-drawer-hide="drawer-right"
+      class="rounded-full bg-gray-100 p-2 text-gray-400 hover:bg-gray-200"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="relative mb-8">
+    <input
+      #mobileSearchInput
+      (keyup.enter)="onSearch(mobileSearchInput.value)"
+      type="text"
+      [placeholder]="'NAVBAR.SEARCH_PLACEHOLDER' | translate"
+      class="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:ring-emerald-500"
+    />
+    <button (click)="onSearch(mobileSearchInput.value)" class="absolute right-3 top-2.5 text-emerald-600"><i class="fas fa-search"></i></button>
+  </div>
+
+  <nav class="mb-1 border-b border-gray-100 pb-2">
+    <ul class="space-y-5 font-medium text-gray-800">
+      <li>
+        <a
+          routerLink="/"
+          routerLinkActive="text-primary"
+          class="font-medium block transition-colors hover:text-emerald-600"
+          >{{ 'NAVBAR.HOME' | translate }}</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/shop"
+          routerLinkActive="text-primary"
+          class="block transition-colors hover:text-emerald-600"
+          >{{ 'NAVBAR.SHOP' | translate }}</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/categories"
+          routerLinkActive="text-primary"
+          class="block transition-colors hover:text-emerald-600"
+          >{{ 'NAVBAR.CATEGORIES' | translate }}</a
+        >
+      </li>
+    </ul>
+  </nav>
+
+  <div class="mb-2 space-y-2">
+    <a
+      routerLink="/wishlist"
+      routerLinkActive="text-primary"
+      class="group flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-gray-50"
+    >
+      <div class="flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-red-500">
+        <i class="far fa-heart text-lg"></i>
+      </div>
+      <span class="font-medium text-gray-700 group-hover:text-red-600">{{ 'NAVBAR.MY_WISHLIST' | translate }}</span>
+    </a>
+    <a
+      routerLink="/cart"
+      routerLinkActive="text-primary"
+      class="group flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-gray-50"
+    >
+      <div
+        class="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-50 text-emerald-600"
+      >
+        <i class="fas fa-shopping-cart text-lg"></i>
+      </div>
+      <span class="font-medium text-gray-700 group-hover:text-emerald-600">{{ 'FOOTER.SHOPPING_CART' | translate }}</span>
+    </a>
+  </div>
+
+  <div class="space-y-2 border-t border-gray-100 pt-2">
+    <a
+      routerLink="/login"
+      routerLinkActive="text-primary"
+      class="group flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-emerald-50"
+    >
+      <div
+        class="flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-colors group-hover:bg-emerald-100 group-hover:text-emerald-600"
+      >
+        <i class="far fa-user text-lg"></i>
+      </div>
+      <span class="font-bold text-gray-700 group-hover:text-emerald-600">{{ 'NAVBAR.SIGN_IN' | translate }}</span>
+    </a>
+
+    <a
+      routerLink="/register"
+      routerLinkActive="text-primary"
+      class="group flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-emerald-50"
+    >
+      <div
+        class="flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition-colors group-hover:bg-emerald-100 group-hover:text-emerald-600"
+      >
+        <i class="fas fa-user-plus text-lg"></i>
+      </div>
+      <span class="font-bold text-gray-700 group-hover:text-emerald-600">{{ 'NAVBAR.SIGN_UP' | translate }}</span>
+    </a>
+  </div>
+</div>

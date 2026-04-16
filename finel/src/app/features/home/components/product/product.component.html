@@ -1,0 +1,34 @@
+<section class="py-10 relative overflow-hidden">
+
+  <i class="fas fa-tshirt floating-icon float-1 text-7xl hidden lg:block" style="top: 15%; left: 5%;"></i>
+  <i class="fas fa-shoe-prints floating-icon float-2 text-6xl hidden lg:block" style="top: 45%; left: 8%;"></i>
+  <i class="fas fa-ticket-alt floating-icon float-3 text-8xl hidden lg:block" style="top: 75%; left: 3%;"></i>
+
+  <i class="fas fa-gamepad floating-icon float-4 text-8xl hidden lg:block" style="top: 20%; right: 6%;"></i>
+  <i class="fas fa-shopping-bag floating-icon float-5 text-7xl hidden lg:block" style="top: 50%; right: 4%;"></i>
+  <i class="fas fa-glasses floating-icon float-6 text-6xl hidden lg:block" style="top: 80%; right: 7%;"></i>
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10">
+    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-6">
+      <div>
+        <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
+          {{ 'HOME.FEATURED_PRODUCTS' | translate }}
+        </h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'HOME.FEATURED_DESC' | translate }}</p>
+      </div>
+      <a
+        href="/shop"
+        class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 transition"
+      >
+        {{ 'HOME.VIEW_ALL_PRODUCTS' | translate }}
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="mt-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+      @for (product of productList(); track product._id) {
+        <app-card [product]="product"></app-card>
+      }
+    </div>
+  </div>
+</section>

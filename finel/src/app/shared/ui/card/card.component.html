@@ -1,0 +1,86 @@
+<div
+  class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 group font-sans flex flex-col h-full relative"
+>
+  @if (product.priceAfterDiscount) {
+    <div class="absolute top-4 left-4 z-20 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">
+      -{{ getDiscountPercent() }}%
+    </div>
+  }
+
+  <div
+    class="relative overflow-hidden mb-4 h-56 bg-slate-50 dark:bg-slate-700/50 flex items-center justify-center rounded-xl"
+  >
+    <img
+      [src]="product.images && product.images.length > 0 ? product.images[currentImageIndex()] : product.imageCover"
+      [alt]="product.title"
+      class="max-h-full max-w-full object-contain transition-opacity duration-300 group-hover:scale-105 transition-transform duration-500"
+    />
+
+    <div class="absolute top-2 right-2 flex flex-col gap-2 transition-all translate-x-5 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 duration-300">
+      <button
+        (click)="toggleWishlist()"
+        class="group w-9 h-9 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg flex items-center justify-center transition-all hover:border-red-500"
+        [class.border-red-500]="isInWishlist()"
+      >
+        <i 
+          class="fa-heart text-sm transition-all duration-300 group-hover:scale-110 group-hover:text-red-500"
+          [class.fas]="isInWishlist()"
+          [class.text-red-500]="isInWishlist()"
+          [class.far]="!isInWishlist()"
+          [class.text-gray-400]="!isInWishlist()"
+        ></i>
+      </button>
+
+      <button
+        (click)="nextImage($event)"
+        class="w-9 h-9 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white transition-all duration-300"
+      >
+        <i class="fas fa-sync-alt text-xs"></i>
+      </button>
+
+      <button
+        [routerLink]="['/details', product.slug, product._id]"
+        class="w-9 cursor-pointer h-9 bg-white dark:bg-slate-700 shadow-sm border border-gray-100 dark:border-slate-600 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-emerald-600 dark:hover:bg-emerald-600 hover:text-white transition-all duration-300"
+      >
+        <i class="far fa-eye text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="space-y-1 flex flex-col flex-1">
+    <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">{{ product.category.name }}</p>
+
+    <h3
+      [routerLink]="['/details', product.slug, product._id]"
+      class="text-sm font-bold text-slate-800 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer transition-colors line-clamp-2 min-h-[40px]"
+    >
+      {{ product.title }}
+    </h3>
+
+    <div class="flex items-center gap-1.5 py-1">
+      <app-stars [rating]="product.ratingsAverage" size="xs"></app-stars>
+      <span class="text-[10px] text-gray-400 font-bold">
+        {{ product.ratingsAverage }} ({{ product.ratingsQuantity }})</span>
+    </div>
+
+    <div class="flex items-center justify-between pt-2 mt-auto">
+      <div class="flex flex-col">
+        @if (product.priceAfterDiscount) {
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-emerald-600">{{ product.priceAfterDiscount }} {{ 'COMMON.CURRENCY' | translate }}</span>
+            <span class="text-[10px] text-gray-400 line-through">{{ product.price }} {{ 'COMMON.CURRENCY' | translate }}</span>
+          </div>
+        } @else {
+          <span class="text-sm font-bold text-slate-900 dark:text-white">{{ product.price }} {{ 'COMMON.CURRENCY' | translate }}</span>
+        }
+      </div>
+
+      <button
+        (click)="addToCart(product._id)"
+        class="w-8 h-8 cursor-pointer bg-emerald-600 text-white rounded-full flex items-center justify-center hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/20 active:scale-90"
+      >
+        <i class="fas fa-plus text-xs"></i>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<app-banner 
+  [title]="'CATEGORIES.ALL_CATEGORIES' | translate" 
+  [subtitle]="'CATEGORIES.BROWSE' | translate" 
+  [breadcrumb]="'CATEGORIES.BREADCRUMB' | translate" 
+  icon="categories" 
+  theme="green"
+></app-banner>
+
+<div class="max-w-7xl mx-auto my-12 px-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+    @for (cat of categoryList(); track cat._id) {
+      <div
+        [routerLink]="['/category-products', cat._id]"
+        class="group cursor-pointer bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-sm border border-gray-100 dark:border-slate-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2"
+      >
+        <div class="relative h-72 rounded-3">
+          <img
+            [src]="cat.image"
+            [alt]="cat.name"
+            class="absolute inset-0 w-full h-full object-cover"
+          >
+        </div>
+        <div class="p-4 text-center">
+          <h3 class="text-xl font-bold text-green-600 group-hover:text-green-700 transition-colors">
+            {{cat.name}}
+          </h3>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (subCategoryList().length > 0) {
+    <div class="mt-16 text-center animate-fade-in">
+      <h2 class="text-3xl font-bold text-green-600 mb-8 transition-colors">
+        {{selectedCategoryName()}} {{ 'CATEGORIES.SUBCATEGORIES' | translate }}
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center">
+        @for (sub of subCategoryList(); track sub._id) {
+          <div class="p-4 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 transition-all">
+            <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 m-0">
+              {{sub.name}}
+            </h4>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

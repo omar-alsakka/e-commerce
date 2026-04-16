@@ -1,0 +1,652 @@
+@if (productDetails(); as product) {
+  <div class="min-h-screen bg-gray-50/50 dark:bg-black pb-20 transition-colors duration-300">
+    <div class="mx-auto px-4 py-8 max-w-7xl">
+      <nav
+        class="flex mb-8 text-xs font-medium text-gray-400 dark:text-gray-500 gap-2 items-center"
+      >
+        <a
+          routerLink="/home"
+          class="hover:text-emerald-600 dark:hover:text-emerald-500 cursor-pointer"
+          >Home</a
+        >
+        <i class="fas fa-chevron-right text-[10px]"></i>
+        <a
+          [routerLink]="['/category-products', product.category._id]"
+          class="hover:text-emerald-600 dark:hover:text-emerald-500 cursor-pointer"
+          >{{ product.category.name }}</a
+        >
+        <i class="fas fa-chevron-right text-[10px]"></i>
+        <span class="text-gray-900 dark:text-gray-200">{{ product.title }}</span>
+      </nav>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div class="lg:col-span-5 space-y-6">
+          <div
+            class="relative aspect-square rounded-3xl overflow-hidden bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 shadow-xl group"
+          >
+            <img
+              [src]="activeImage()"
+              [alt]="product.title"
+              class="w-full h-full object-contain p-8 transition-transform duration-700 group-hover:scale-105"
+            />
+          </div>
+
+          <div
+            class="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-zinc-800"
+          >
+            @for (img of product.images; track $index) {
+              <button
+                (click)="activeImage.set(img)"
+                class="relative shrink-0 w-24 aspect-square rounded-xl overflow-hidden bg-white dark:bg-zinc-900 border-2 transition-all p-2 mx-1"
+                [class.border-emerald-500]="activeImage() === img"
+                [class.border-transparent]="activeImage() !== img"
+                [class.dark:border-zinc-800]="activeImage() !== img"
+              >
+                <img [src]="img" class="w-full h-full object-contain" />
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 flex flex-col">
+          <div class="space-y-6">
+            <div class="flex items-center gap-3">
+              <a
+                [routerLink]="['/category-products', product.category._id]"
+                class="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors cursor-pointer"
+              >
+                {{ product.category.name }}
+              </a>
+              <a
+                [routerLink]="['/brand-products', product.brand._id]"
+                class="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md font-bold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors cursor-pointer"
+              >
+                {{ product.brand.name }}
+              </a>
+            </div>
+
+            <div class="space-y-2">
+              <h1
+                class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight"
+              >
+                {{ product.title }}
+              </h1>
+              <div class="flex items-center gap-4">
+                <app-stars [rating]="product.ratingsAverage" size="sm"></app-stars>
+                <span class="text-sm text-gray-400 dark:text-gray-500 font-medium"
+                  >({{ product.ratingsQuantity }} reviews)</span
+                >
+              </div>
+            </div>
+
+            <div class="flex items-baseline gap-3">
+              <span class="text-3xl font-black text-slate-900 dark:text-white"
+                >{{ product.price }} EGP</span
+              >
+            </div>
+
+            <div
+              class="inline-flex items-center gap-2 bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 px-3 py-1.5 rounded-full"
+            >
+              <span class="relative flex h-2 w-2">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                ></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span
+                class="text-xs font-bold text-emerald-700 dark:text-emerald-500 uppercase tracking-wide"
+                >In Stock</span
+              >
+            </div>
+
+            <div
+              class="grid grid-cols-2 gap-y-4 py-4 border-y border-gray-100/80 dark:border-zinc-800"
+            >
+              <div class="space-y-1">
+                <span
+                  class="text-[10px] uppercase tracking-wider font-bold text-gray-400 dark:text-gray-600"
+                  >Material</span
+                >
+                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Polyester Blend
+                </p>
+              </div>
+              <div class="space-y-1">
+                <span
+                  class="text-[10px] uppercase tracking-wider font-bold text-gray-400 dark:text-gray-600"
+                  >Department</span
+                >
+                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">Women</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="space-y-2">
+                  <span class="text-xs font-bold text-gray-900 dark:text-gray-400 uppercase"
+                    >Quantity</span
+                  >
+                  <div
+                    class="flex items-center h-12 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm"
+                  >
+                    <button
+                      (click)="decreaseQty()"
+                      class="px-5 h-full hover:bg-gray-50 dark:hover:bg-zinc-800 text-gray-500 transition-colors"
+                    >
+                      <i class="fas fa-minus text-xs"></i>
+                    </button>
+                    <span class="w-12 text-center font-bold text-slate-900 dark:text-white">{{
+                      quantity()
+                    }}</span>
+                    <button
+                      (click)="increaseQty()"
+                      class="px-5 h-full hover:bg-gray-50 dark:hover:bg-zinc-800 text-gray-500 transition-colors"
+                    >
+                      <i class="fas fa-plus text-xs"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="text-right flex flex-col justify-end h-16">
+                  <span class="text-xs font-bold text-gray-400 dark:text-gray-600 uppercase"
+                    >Total Price</span
+                  >
+                  <span class="text-2xl font-black text-emerald-600 dark:text-emerald-500"
+                    >{{ product.price * quantity() }}.00 EGP</span
+                  >
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <button
+                  (click)="addToCart(product.id)"
+                  [disabled]="isLoading()"
+                  class="group relative h-14 bg-emerald-600 text-white font-black rounded-2xl overflow-hidden shadow-xl shadow-emerald-200 dark:shadow-none hover:shadow-emerald-300 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  <div
+                    class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                  ></div>
+                  <div class="flex items-center justify-center gap-3">
+                    @if (isLoading()) {
+                      <i class="fas fa-spinner fa-spin text-lg"></i>
+                      <span class="uppercase tracking-wider">Adding...</span>
+                    } @else {
+                      <i class="fas fa-shopping-cart text-lg"></i>
+                      <span class="uppercase tracking-wider">Add to Cart</span>
+                    }
+                  </div>
+                </button>
+
+                <button
+                  (click)="goToCheckout()"
+                  class="h-14 bg-slate-900 dark:bg-zinc-800 text-white font-black rounded-2xl hover:bg-black dark:hover:bg-zinc-700 transition-all active:scale-[0.98] shadow-xl shadow-slate-200 dark:shadow-none uppercase tracking-wider flex items-center justify-center gap-3"
+                >
+                  <i class="fas fa-bolt"></i>
+                  Buy Now
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <button
+                  (click)="addToWishlist(product.id)"
+                  class="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-rose-500 dark:text-gray-400 dark:hover:text-rose-400 transition-colors py-2 px-4 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10"
+                >
+                  <i class="far fa-heart font-bold"></i>
+                  Add to Wishlist
+                </button>
+                <button
+                  class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-zinc-900 text-gray-500 dark:text-gray-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                >
+                  <i class="fas fa-share-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="grid grid-cols-3 gap-4 mt-12 bg-white/50 dark:bg-zinc-900/30 border border-gray-100 dark:border-zinc-800 rounded-2xl p-4 transition-colors duration-300"
+          >
+            <div class="flex flex-col items-center text-center gap-2">
+              <div
+                class="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-truck text-emerald-600 dark:text-emerald-400"></i>
+              </div>
+              <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400"
+                >Free Delivery</span
+              >
+            </div>
+            <div
+              class="flex flex-col items-center text-center gap-2 border-x border-gray-100 dark:border-zinc-800 px-2"
+            >
+              <div
+                class="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-history text-blue-600 dark:text-blue-400"></i>
+              </div>
+              <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400"
+                >30 Days Return</span
+              >
+            </div>
+            <div class="flex flex-col items-center text-center gap-2">
+              <div
+                class="w-10 h-10 bg-orange-50 dark:bg-orange-900/20 rounded-full flex items-center justify-center"
+              >
+                <i class="fas fa-shield-alt text-orange-600 dark:text-orange-400"></i>
+              </div>
+              <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400"
+                >Secure Payment</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-20">
+        <div
+          class="flex border-b border-gray-100 dark:border-zinc-800 gap-8 overflow-x-auto no-scrollbar relative z-10"
+        >
+          <button
+            (click)="activeTab.set('details')"
+            [class.border-emerald-500]="activeTab() === 'details'"
+            [class.text-emerald-600]="activeTab() === 'details'"
+            class="flex items-center gap-2 px-4 py-4 border-b-2 font-bold text-sm transition-all whitespace-nowrap cursor-pointer hover:text-emerald-500"
+            [class.border-transparent]="activeTab() !== 'details'"
+            [class.text-gray-400]="activeTab() !== 'details'"
+          >
+            <i class="fas fa-info-circle"></i>
+            Product Details
+          </button>
+          <button
+            (click)="activeTab.set('reviews')"
+            [class.border-emerald-500]="activeTab() === 'reviews'"
+            [class.text-emerald-600]="activeTab() === 'reviews'"
+            class="flex items-center gap-2 px-4 py-4 border-b-2 font-bold text-sm transition-all whitespace-nowrap cursor-pointer hover:text-emerald-500"
+            [class.border-transparent]="activeTab() !== 'reviews'"
+            [class.text-gray-400]="activeTab() !== 'reviews'"
+          >
+            <i class="fas fa-star"></i>
+            Reviews ({{ product.ratingsQuantity }})
+          </button>
+          <button
+            (click)="activeTab.set('shipping')"
+            [class.border-emerald-500]="activeTab() === 'shipping'"
+            [class.text-emerald-600]="activeTab() === 'shipping'"
+            class="flex items-center gap-2 px-4 py-4 border-b-2 font-bold text-sm transition-all whitespace-nowrap cursor-pointer hover:text-emerald-500"
+            [class.border-transparent]="activeTab() !== 'shipping'"
+            [class.text-gray-400]="activeTab() !== 'shipping'"
+          >
+            <i class="fas fa-shipping-fast"></i>
+            Shipping & Returns
+          </button>
+        </div>
+
+        <div class="py-10">
+          @if (activeTab() === 'details') {
+            <div class="space-y-12 animate-fadeIn">
+              <div class="max-w-3xl">
+                <h2 class="text-xl font-black text-slate-900 dark:text-white mb-4">
+                  About this Product
+                </h2>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
+                  {{ product.description }}
+                </p>
+              </div>
+
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white dark:bg-zinc-900 rounded-3xl p-8 border border-gray-100 dark:border-zinc-800 shadow-sm transition-all"
+              >
+                <div class="space-y-6">
+                  <h3
+                    class="text-sm font-black text-slate-900 dark:text-white border-l-4 border-emerald-500 pl-4"
+                  >
+                    Product Information
+                  </h3>
+                  <div class="space-y-4">
+                    <div
+                      class="flex justify-between items-center text-xs border-b border-gray-50 dark:border-zinc-800 pb-2"
+                    >
+                      <span
+                        class="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider"
+                        >Category</span
+                      >
+                      <span class="text-emerald-600 dark:text-emerald-400 font-bold">{{
+                        product.category.name
+                      }}</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center text-xs border-b border-gray-50 dark:border-zinc-800 pb-2"
+                    >
+                      <span
+                        class="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider"
+                        >Brand</span
+                      >
+                      <span class="text-emerald-600 dark:text-emerald-400 font-bold">{{
+                        product.brand.name
+                      }}</span>
+                    </div>
+                    <div
+                      class="flex justify-between items-center text-xs border-b border-gray-50 dark:border-zinc-800 pb-2"
+                    >
+                      <span
+                        class="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider"
+                        >Sold</span
+                      >
+                      <span class="text-slate-900 dark:text-white font-black"
+                        >{{ product.sold }}+ units</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-6">
+                  <h3
+                    class="text-sm font-black text-slate-900 dark:text-white border-l-4 border-blue-500 pl-4"
+                  >
+                    Key Features
+                  </h3>
+                  <ul class="space-y-3">
+                    <li class="flex items-center gap-3 text-xs text-slate-700 dark:text-gray-300">
+                      <i class="fas fa-check-circle text-emerald-500"></i>
+                      <span class="font-medium">Premium Quality Product</span>
+                    </li>
+                    <li class="flex items-center gap-3 text-xs text-slate-700 dark:text-gray-300">
+                      <i class="fas fa-check-circle text-emerald-500"></i>
+                      <span class="font-medium">100% Authentic Guarantee</span>
+                    </li>
+                    <li class="flex items-center gap-3 text-xs text-slate-700 dark:text-gray-300">
+                      <i class="fas fa-check-circle text-emerald-500"></i>
+                      <span class="font-medium">Secure & Fast Delivery</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          } @else if (activeTab() === 'reviews') {
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 animate-fadeIn">
+              <div
+                class="lg:col-span-4 bg-white dark:bg-zinc-900 rounded-3xl p-8 border border-gray-100 dark:border-zinc-800 shadow-sm transition-all h-fit"
+              >
+                <div class="text-center space-y-4">
+                  <div class="text-6xl font-black text-slate-900 dark:text-white">
+                    {{ product.ratingsAverage }}
+                  </div>
+                  <div class="flex justify-center">
+                    <app-stars [rating]="product.ratingsAverage" size="md"></app-stars>
+                  </div>
+                  <div class="text-sm font-bold text-gray-400">
+                    Based on {{ product.ratingsQuantity }} reviews
+                  </div>
+                </div>
+
+                <div class="mt-8 space-y-3">
+                  @for (star of [5, 4, 3, 2, 1]; track $index) {
+                    <div class="flex items-center gap-4">
+                      <span class="w-10 text-xs font-bold text-gray-500 whitespace-nowrap"
+                        >{{ star }} star</span
+                      >
+                      <div
+                        class="flex-1 h-2 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden"
+                      >
+                        <div
+                          class="h-full bg-yellow-400 rounded-full"
+                          [style.width.%]="getRatingPercentage(star)"
+                        ></div>
+                      </div>
+                      <span class="w-10 text-xs font-bold text-gray-400 text-right"
+                        >{{ getRatingPercentage(star) }}%</span
+                      >
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="lg:col-span-8 space-y-6">
+                <div
+                  class="bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/20 p-6 rounded-2xl flex items-center justify-between"
+                >
+                  <div>
+                    <h4 class="font-bold text-blue-900 dark:text-blue-300">Show us your love!</h4>
+                    <p class="text-sm text-blue-700 dark:text-blue-400/80">
+                      Help other customers by sharing your experience.
+                    </p>
+                  </div>
+                  <button
+                    class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 transition-all"
+                  >
+                    Write a Review
+                  </button>
+                </div>
+
+                <div class="text-center py-10 opacity-50">
+                  <i class="far fa-comments text-5xl mb-4 text-gray-300"></i>
+                  <p class="text-gray-500">No detailed reviews available for this product yet.</p>
+                </div>
+              </div>
+            </div>
+          } @else if (activeTab() === 'shipping') {
+            <div class="space-y-8 animate-fadeIn">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div
+                  class="bg-emerald-50/30 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 p-8 rounded-3xl"
+                >
+                  <div class="flex items-center gap-4 mb-6">
+                    <div
+                      class="w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200 dark:shadow-none"
+                    >
+                      <i class="fas fa-truck text-xl"></i>
+                    </div>
+                    <h3
+                      class="text-lg font-black text-emerald-900 dark:text-emerald-400 leading-none"
+                    >
+                      Shipping Information
+                    </h3>
+                  </div>
+                  <ul class="space-y-4">
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Free shipping on orders over 500 EGP</span>
+                    </li>
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Standard delivery: 3-5 business days</span>
+                    </li>
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Express delivery available (1-2 business days)</span>
+                    </li>
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Track your order in real-time</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div
+                  class="bg-emerald-50/30 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 p-8 rounded-3xl"
+                >
+                  <div class="flex items-center gap-4 mb-6">
+                    <div
+                      class="w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200 dark:shadow-none"
+                    >
+                      <i class="fas fa-history text-xl"></i>
+                    </div>
+                    <h3
+                      class="text-lg font-black text-emerald-900 dark:text-emerald-400 leading-none"
+                    >
+                      Returns & Refunds
+                    </h3>
+                  </div>
+                  <ul class="space-y-4">
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>30-day hassle-free returns</span>
+                    </li>
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Full refund or exchange available</span>
+                    </li>
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Free return shipping on defective items</span>
+                    </li>
+                    <li
+                      class="flex items-center gap-3 text-sm text-emerald-800 dark:text-emerald-500/80"
+                    >
+                      <i class="fas fa-check text-xs"></i>
+                      <span>Easy online return process</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div
+                class="bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 p-6 rounded-3xl flex items-center gap-6"
+              >
+                <div
+                  class="w-16 h-16 bg-white dark:bg-zinc-800 rounded-full flex items-center justify-center shadow-sm shrink-0"
+                >
+                  <i class="fas fa-shield-alt text-3xl text-gray-400"></i>
+                </div>
+                <div class="space-y-1">
+                  <h4
+                    class="font-black text-slate-800 dark:text-white uppercase tracking-wider text-sm"
+                  >
+                    Buyer Protection Guarantee
+                  </h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Get a full refund if your order doesn't arrive or isn't as described. We ensure
+                    your shopping experience is safe and secure.
+                  </p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (relatedProducts().length > 0) {
+        <div class="mt-20 space-y-8 relative">
+          <div class="flex justify-between items-end">
+            <div>
+              <span
+                class="text-emerald-600 dark:text-emerald-500 font-black tracking-widest text-[10px] uppercase mb-1 block"
+                >Fresh Picks</span
+              >
+              <h2 class="text-3xl font-black text-slate-900 dark:text-white leading-none">
+                You May Also <span class="text-emerald-600">Like</span>
+              </h2>
+            </div>
+
+            <div class="flex gap-2">
+              <button
+                id="prevBtnRelated"
+                class="w-10 h-10 rounded-full border border-gray-200 dark:border-zinc-800 flex items-center justify-center text-gray-400 dark:text-zinc-500 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
+              >
+                <i class="fas fa-chevron-left text-xs"></i>
+              </button>
+              <button
+                id="nextBtnRelated"
+                class="w-10 h-10 rounded-full border border-gray-200 dark:border-zinc-800 flex items-center justify-center text-gray-400 dark:text-zinc-500 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
+              >
+                <i class="fas fa-chevron-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <swiper-container
+            slides-per-view="1"
+            space-between="24"
+            navigation='{"nextEl": "#nextBtnRelated", "prevEl": "#prevBtnRelated"}'
+            [breakpoints]="{ '640': { slidesPerView: 2 }, '1024': { slidesPerView: 4 } }"
+            class="pb-10"
+          >
+            @for (p of relatedProducts(); track p.id) {
+              <swiper-slide>
+                <div
+                  class="group bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-zinc-800 p-4 hover:shadow-2xl hover:shadow-gray-200 dark:hover:shadow-none transition-all duration-500 h-full flex flex-col"
+                >
+                  <div
+                    class="relative aspect-4/5 rounded-2xl overflow-hidden bg-gray-50 dark:bg-zinc-800 mb-4 shrink-0"
+                  >
+                    <img
+                      [src]="p.imageCover"
+                      [alt]="p.title"
+                      class="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <button
+                      (click)="addToWishlist(p.id)"
+                      class="absolute top-3 right-3 w-10 h-10 bg-white/80 dark:bg-zinc-900/80 backdrop-blur shadow-sm rounded-full flex items-center justify-center text-gray-400 dark:text-zinc-500 hover:text-rose-500 transition-all opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0"
+                    >
+                      <i class="far fa-heart font-bold"></i>
+                    </button>
+                  </div>
+                  <div class="space-y-1 flex-1 flex flex-col">
+                    <span
+                      class="text-[10px] font-bold text-emerald-600 dark:text-emerald-500 tracking-wider flex items-center gap-1"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      {{ p.category.name }}
+                    </span>
+                    <a
+                      [routerLink]="['/details', p.id]"
+                      class="font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-500 transition-colors flex-1"
+                      >{{ p.title }}</a
+                    >
+                    <div class="flex items-center gap-1.5 pt-1">
+                      <app-stars [rating]="p.ratingsAverage" size="xs"></app-stars>
+                      <span class="text-xs font-bold text-gray-400 dark:text-gray-500">{{
+                        p.ratingsAverage
+                      }}</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-2">
+                      <span class="font-black text-slate-900 dark:text-white"
+                        >{{ p.price }} EGP</span
+                      >
+                      <button
+                        (click)="addToCart(p.id, 1)"
+                        class="w-10 h-10 bg-slate-900 dark:bg-zinc-800 text-white rounded-xl flex items-center justify-center hover:bg-emerald-600 dark:hover:bg-emerald-500 transition-all shadow-lg"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </swiper-slide>
+            }
+          </swiper-container>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <div
+    class="flex h-screen items-center justify-center bg-gray-50 dark:bg-black transition-colors duration-300"
+  >
+    <div class="relative">
+      <div
+        class="h-20 w-20 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent shadow-xl"
+      ></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div
+          class="h-10 w-10 rounded-full bg-emerald-50 dark:bg-emerald-900/30 blur-xl animate-pulse"
+        ></div>
+      </div>
+    </div>
+  </div>
+}

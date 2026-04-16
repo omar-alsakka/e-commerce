@@ -1,0 +1,14 @@
+<div class="flex flex-col min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+  <app-navbar></app-navbar>
+  <main class="grow w-full shrink-0">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer class="mt-auto"></app-footer>
+</div>
+
+<ngx-spinner
+name="main-spinner"
+  bdColor="rgba(0, 0, 0, .5)"
+  template="<img class='size-100' src='/assets/fresh-logo.svg' />"
+>
+</ngx-spinner>

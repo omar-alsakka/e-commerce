@@ -1,0 +1,81 @@
+<section>
+  <swiper-container
+    class="mySwiper main-slider"
+    navigation="true"
+    pagination="true"
+    loop="true"
+    pagination-clickable="true"
+  >
+    <swiper-slide>
+      <div class="h-[460px] flex items-center justify-start item pb-6 px-6 md:px-20 text-left">
+        <div class="w-full max-w-2xl text-white space-y-4">
+          <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">{{ 'HOME.SLIDER.SLIDE1_TITLE' | translate }}</h2>
+          <p class="max-w-xl text-lg text-white/90">
+            {{ 'HOME.SLIDER.SLIDE1_SUBTITLE' | translate }}
+          </p>
+          <div class="flex justify-start gap-4 pt-4">
+            <button
+              routerLink="/shop"
+              class="bg-white text-emerald-600 px-8 py-3 rounded-lg font-bold transition hover:bg-slate-100 cursor-pointer"
+            >
+              {{ 'HOME.SLIDER.SHOP_NOW' | translate }}
+            </button>
+            <button
+              routerLink="/not-found"
+              class="border border-white text-white px-8 py-3 rounded-lg font-bold transition hover:bg-white/10 cursor-pointer"
+            >
+              {{ 'HOME.SLIDER.VIEW_DEALS' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="h-[460px] flex items-center justify-start item pb-6 px-6 md:px-20 text-left">
+        <div class="w-full max-w-2xl text-white space-y-4">
+          <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">{{ 'HOME.SLIDER.SLIDE2_TITLE' | translate }}</h2>
+          <p class="max-w-xl text-lg text-white/90">
+            {{ 'HOME.SLIDER.SLIDE2_SUBTITLE' | translate }}
+          </p>
+          <div class="flex justify-start gap-4 pt-4">
+            <button
+              class="bg-white text-emerald-600 px-8 py-3 rounded-lg font-bold transition hover:bg-slate-100"
+            >
+              {{ 'HOME.SLIDER.SHOP_NOW' | translate }}
+            </button>
+            <button
+              routerLink="/not-found"
+              class="border border-white text-white px-8 py-3 rounded-lg font-bold transition hover:bg-white/10 cursor-pointer"
+            >
+              {{ 'HOME.SLIDER.VIEW_DEALS' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+    <swiper-slide>
+      <div class="h-[460px] flex items-center justify-start item pb-6 px-6 md:px-20 text-left">
+        <div class="w-full max-w-2xl text-white space-y-4">
+          <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">{{ 'HOME.SLIDER.SLIDE3_TITLE' | translate }}</h2>
+          <p class="max-w-xl text-lg text-white/90">
+            {{ 'HOME.SLIDER.SLIDE3_SUBTITLE' | translate }}
+          </p>
+          <div class="flex justify-start gap-4 pt-4">
+            <button
+              class="bg-white text-emerald-600 px-8 py-3 rounded-lg font-bold transition hover:bg-slate-100"
+            >
+              {{ 'HOME.SLIDER.SHOP_NOW' | translate }}
+            </button>
+            <button
+              routerLink="/not-found"
+              class="border border-white text-white px-8 py-3 rounded-lg font-bold transition hover:bg-white/10 cursor-pointer"
+            >
+              {{ 'HOME.SLIDER.VIEW_DEALS' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+
+</section>

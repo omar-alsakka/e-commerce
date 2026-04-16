@@ -1,0 +1,274 @@
+<section
+  class="w-full bg-emerald-50/50 dark:bg-gray-900 border-t border-emerald-100 dark:border-gray-800 transition-colors duration-300"
+>
+  <div class="max-w-7xl mx-auto px-6 py-6 font-sans">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="flex items-center gap-3 p-4 bg-transparent rounded-xl transition hover:shadow-sm">
+        <div
+          class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-xl"
+        >
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-800 dark:text-white text-sm">
+            {{ 'FOOTER.FREE_SHIPPING' | translate }}
+          </h3>
+          <p class="text-slate-500 dark:text-gray-400 text-xs italic">
+            {{ 'FOOTER.FREE_SHIPPING_DESC' | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 p-4 bg-transparent rounded-xl transition hover:shadow-sm">
+        <div
+          class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-xl"
+        >
+          <i class="fa-solid fa-rotate-left"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-800 dark:text-white text-sm">
+            {{ 'FOOTER.EASY_RETURNS' | translate }}
+          </h3>
+          <p class="text-slate-500 dark:text-gray-400 text-xs italic">
+            {{ 'FOOTER.EASY_RETURNS_DESC' | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 p-4 bg-transparent rounded-xl transition hover:shadow-sm">
+        <div
+          class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-xl"
+        >
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-800 dark:text-white text-sm">
+            {{ 'FOOTER.SECURE_PAYMENT' | translate }}
+          </h3>
+          <p class="text-slate-500 dark:text-gray-400 text-xs italic">
+            {{ 'FOOTER.SECURE_PAYMENT_DESC' | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 p-4 bg-transparent rounded-xl transition hover:shadow-sm">
+        <div
+          class="flex flex-shrink-0 items-center justify-center w-12 h-12 rounded-full bg-emerald-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 text-xl"
+        >
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-800 dark:text-white text-sm">
+            {{ 'FOOTER.SUPPORT_247' | translate }}
+          </h3>
+          <p class="text-slate-500 dark:text-gray-400 text-xs italic">
+            {{ 'FOOTER.SUPPORT_DESC' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-[#0b1522] text-gray-400 py-10 px-6 font-sans mt-auto">
+  <div class="max-w-7xl mx-auto">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(4,1fr)] gap-8 mb-10"
+    >
+      <div class="lg:col-span-1">
+        <div class="bg-white inline-block p-2 rounded-md mb-6">
+          <img src="/assets/fresh-logo.svg" alt="FreshCart" class="h-8" />
+        </div>
+        <p class="text-sm leading-relaxed mb-6">{{ 'FOOTER.DESCRIPTION' | translate }}</p>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-3">
+            <i class="fas fa-phone text-emerald-500"></i>
+            <span>+1 (800) 123-4567</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i class="fas fa-envelope text-emerald-500"></i>
+            <span>support&#64;freshcart.com</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i class="fas fa-map-marker-alt text-emerald-500"></i>
+            <span>123 Commerce Street, New York, NY 10001</span>
+          </li>
+        </ul>
+
+        <div class="flex gap-3 mt-8">
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors"
+          >
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors"
+          >
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a
+            href="#"
+            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors"
+          >
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-6">{{ 'FOOTER.SHOP' | translate }}</h4>
+        <ul class="space-y-4 text-sm">
+          <li>
+            <a routerLink="/shop" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.ALL_PRODUCTS' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/categories" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.CATEGORIES' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/brands" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.BRANDS' | translate
+            }}</a>
+          </li>
+          <li>
+            <a
+              [routerLink]="['/category-products', '6439d2d167d9aa4ca970649f']"
+              class="hover:text-emerald-500 cursor-pointer"
+              >{{ 'FOOTER.ELECTRONICS' | translate }}</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/category-products', '6439d5b90049ad0b52b90048']"
+              class="hover:text-emerald-500 cursor-pointer"
+              >{{ 'FOOTER.MENS_FASHION' | translate }}</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="['/category-products', '6439d58a0049ad0b52b9003f']"
+              class="hover:text-emerald-500 cursor-pointer"
+              >{{ 'FOOTER.WOMENS_FASHION' | translate }}</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-6">{{ 'FOOTER.ACCOUNT' | translate }}</h4>
+        <ul class="space-y-4 text-sm">
+          <li>
+            <a routerLink="/settings" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.MY_ACCOUNT' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/notfound" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.ORDER_HISTORY' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/wishlist" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.WISHLIST' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/cart" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.SHOPPING_CART' | translate
+            }}</a>
+          </li>
+          <li>
+            <a
+              [routerLink]="logged() ? '/home' : '/login'"
+              class="hover:text-emerald-500 cursor-pointer"
+              >{{ 'NAVBAR.SIGN_IN' | translate }}</a
+            >
+          </li>
+          <li>
+            <a
+              [routerLink]="logged() ? '/home' : '/register'"
+              class="hover:text-emerald-500 cursor-pointer"
+              >{{ 'FOOTER.CREATE_ACCOUNT' | translate }}</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-6">{{ 'FOOTER.SUPPORT' | translate }}</h4>
+        <ul class="space-y-4 text-sm">
+          <li>
+            <a routerLink="/support" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.CONTACT_US' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/notfound" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.HELP_CENTER' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/notfound" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.SHIPPING_INFO' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/notfound" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.RETURNS' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/notfound" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.TRACK_ORDER' | translate
+            }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-6">{{ 'FOOTER.LEGAL' | translate }}</h4>
+        <ul class="space-y-4 text-sm">
+          <li>
+            <a routerLink="/privacy-policy" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.PRIVACY_POLICY' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/terms-of-service" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.TERMS' | translate
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="/notfound" class="hover:text-emerald-500 cursor-pointer">{{
+              'FOOTER.COOKIES' | translate
+            }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+    >
+      <p class="text-sm">{{ 'FOOTER.COPYRIGHT' | translate }}</p>
+      <div class="flex items-center gap-6 text-sm">
+        <span class="flex items-center gap-2"><i class="fab fa-cc-visa text-xl"></i> Visa</span>
+        <span class="flex items-center gap-2"
+          ><i class="fab fa-cc-mastercard text-xl"></i> Mastercard</span
+        >
+        <span class="flex items-center gap-2"><i class="fab fa-cc-paypal text-xl"></i> PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>

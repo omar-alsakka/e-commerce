@@ -1,0 +1,123 @@
+<section class="py-10 bg-slate-50 dark:bg-gray-900 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-6">
+      <div>
+        <h2 class="text-3xl font-semibold text-slate-900 dark:text-white">
+          {{ 'HOME.SHOP_BY_CATEGORY' | translate }}
+        </h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {{ 'HOME.BROWSE_CATEGORIES' | translate }}
+        </p>
+      </div>
+      <a
+        href="/categories"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition"
+      >
+        {{ 'HOME.VIEW_ALL_CATEGORIES' | translate }}
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+      @for (category of categoriesList(); track category._id) {
+        <div
+          [routerLink]="['/category-products', category._id]"
+          class="group cursor-pointer rounded-3xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+        >
+          <div
+            class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 dark:bg-slate-700/50 group-hover:bg-emerald-100 dark:group-hover:bg-slate-600 transition-colors"
+          >
+            <img
+              [src]="category.image"
+              class="h-12 w-12 object-contain transform group-hover:scale-110 transition-transform"
+              [alt]="category.name"
+            />
+          </div>
+          <h3
+            class="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors"
+          >
+            {{ 'CATEGORIES.' + category.name | translate }}
+          </h3>
+        </div>
+      }
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 pt-8 font-sans">
+      <div
+        class="relative overflow-hidden rounded-2xl bg-linear-to-br from-[#12a664] to-[#088a50] p-8 text-white shadow-lg"
+      >
+        <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/10 blur-[2px]"></div>
+        <div
+          class="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-black/5 blur-[2px]"
+        ></div>
+
+        <div class="relative z-10 flex flex-col h-full">
+          <div
+            class="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-sm font-medium mb-4 backdrop-blur-sm"
+          >
+            <i class="fa-solid fa-fire text-orange-400"></i> {{ 'HOME.DEAL_OF_DAY' | translate }}
+          </div>
+
+          <h2 class="text-3xl font-bold mb-2 tracking-tight">{{ 'HOME.FRESH_ORGANIC_FRUITS' | translate }}</h2>
+          <p class="text-white/90 text-sm mb-6">{{ 'HOME.FRESH_FRUITS_DESC' | translate }}</p>
+
+          <div class="flex items-center gap-3 mb-8">
+            <span class="text-3xl font-extrabold tracking-tight">40% {{ 'CART.OFF' | translate }}</span>
+            <span class="text-sm text-white/90 mt-1">
+              {{ 'HOME.USE_CODE' | translate }} <span class="font-bold text-white tracking-wide">ORGANIC40</span>
+            </span>
+          </div>
+
+          <div class="mt-auto">
+            <a
+              [routerLink]="['/shop']"
+              class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#088a50] transition hover:bg-gray-100 shadow-sm"
+            >
+              {{ 'HOME.SHOP_NOW' | translate }}
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="relative overflow-hidden rounded-2xl bg-linear-to-br from-[#ff8736] via-[#fe5c4e] to-[#ff2b6b] p-8 text-white shadow-lg"
+      >
+        <div class="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/10 blur-[2px]"></div>
+        <div
+          class="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-black/5 blur-[2px]"
+        ></div>
+
+        <div class="relative z-10 flex flex-col h-full">
+          <div
+            class="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-sm font-medium mb-4 backdrop-blur-sm"
+          >
+            <i class="fa-solid fa-hand-sparkles text-yellow-300"></i> {{ 'HOME.NEW_ARRIVALS' | translate }}
+          </div>
+
+          <h2 class="text-3xl font-bold mb-2 tracking-tight">{{ 'HOME.EXOTIC_VEGETABLES' | translate }}</h2>
+          <p class="text-white/90 text-sm mb-6">
+            {{ 'HOME.VEGETABLES_DESC' | translate }}
+          </p>
+
+          <div class="flex items-center gap-3 mb-8">
+            <span class="text-3xl font-extrabold tracking-tight">25% {{ 'CART.OFF' | translate }}</span>
+            <span class="text-sm text-white/90 mt-1">
+              {{ 'HOME.USE_CODE' | translate }} <span class="font-bold text-white tracking-wide">FRESH25</span>
+            </span>
+          </div>
+
+          <div class="mt-auto">
+            <a
+              [routerLink]="['/shop']"
+              class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#f25c4e] transition hover:bg-gray-100 shadow-sm"
+            >
+              {{ 'HOME.EXPLORE_NOW' | translate }}
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

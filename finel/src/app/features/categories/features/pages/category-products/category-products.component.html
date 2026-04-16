@@ -1,0 +1,112 @@
+@if (categoryName()) {
+  <app-banner 
+    [title]="categoryName() + ' ' + ('CATEGORY.COLLECTION' | translate)" 
+    [subtitle]="('CATEGORY.BROWSE' | translate) + ' ' + categoryName()" 
+    [breadcrumb]="('CATEGORY.BREADCRUMB' | translate) + ' / ' + categoryName()" 
+    icon="products" 
+    theme="green"
+  ></app-banner>
+} @else {
+  <app-banner 
+    [title]="'CATEGORY.PRODUCTS' | translate" 
+    [subtitle]="'CATEGORY.LOADING' | translate" 
+    [breadcrumb]="'CATEGORY.BREADCRUMB' | translate" 
+    icon="products" 
+    theme="green"
+  ></app-banner>
+}
+
+<section class="relative overflow-hidden pt-12 pb-20">
+  
+  @if (categoryName().includes('Women') || categoryName().includes('النساء')) {
+    
+    <i class="fas fa-tshirt floating-icon float-1 text-7xl hidden lg:block" style="top: 15%; left: 5%;"></i>
+    <i class="fas fa-socks floating-icon float-2 text-6xl hidden lg:block" style="top: 45%; right: 8%;"></i>
+  } @else if (categoryName().includes('Men') || categoryName().includes('الرجال')) {
+    
+    <i class="fas fa-shoe-prints floating-icon float-1 text-7xl hidden lg:block" style="top: 15%; left: 5%;"></i>
+    <i class="fas fa-tshirt floating-icon float-2 text-6xl hidden lg:block" style="top: 45%; right: 8%;"></i>
+    <i class="fas fa-user-tie floating-icon float-3 text-8xl hidden lg:block" style="top: 75%; left: 3%;"></i>
+  } @else if (categoryName().includes('Electronic') || categoryName().includes('إلكترونيات')) {
+    
+    <i class="fas fa-laptop floating-icon float-1 text-7xl hidden lg:block" style="top: 15%; left: 5%;"></i>
+    <i class="fas fa-gamepad floating-icon float-2 text-6xl hidden lg:block" style="top: 45%; right: 8%;"></i>
+    <i class="fas fa-headphones floating-icon float-3 text-8xl hidden lg:block" style="top: 75%; left: 3%;"></i>
+    <i class="fas fa-desktop floating-icon float-4 text-8xl hidden lg:block" style="top: 20%; right: 6%;"></i>
+  }
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10 transition-colors">
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-8">
+      <div>
+        <h2 class="text-3xl font-bold text-slate-900 dark:text-white transition-colors">
+          {{ categoryName() }} {{ 'CATEGORY.PRODUCTS' | translate }}
+        </h2>
+        <p class="text-sm text-gray-500">{{ 'CATEGORY.SHOWING' | translate }} {{ productList().length }} {{ 'CATEGORY.PRODUCTS' | translate | lowercase }}</p>
+    </div>
+    
+    <div class="flex flex-wrap items-center gap-2 text-sm">
+
+      <button 
+        id="dropdownSortButton" 
+        data-dropdown-toggle="dropdownSort" 
+        class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-slate-700 text-slate-600 dark:text-gray-300 font-medium"
+        type="button"
+      >
+        <i class="fas fa-sort-amount-down text-emerald-600"></i>
+        <span>{{ 'SORTING.TITLE' | translate }}</span>
+        <i class="fas fa-chevron-down text-xs ml-1 opacity-50"></i>
+      </button>
+
+      <div id="dropdownSort" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-xl shadow-xl w-56 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 overflow-hidden mt-2">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-300" aria-labelledby="dropdownSortButton">
+          <li>
+            <button (click)="changeSort('price')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+              <i class="fas fa-sort-numeric-down w-5 opacity-50"></i>
+              {{ 'SORTING.PRICE_LOW_HIGH' | translate }}
+            </button>
+          </li>
+          <li>
+            <button (click)="changeSort('-price')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+              <i class="fas fa-sort-numeric-up w-5 opacity-50"></i>
+              {{ 'SORTING.PRICE_HIGH_LOW' | translate }}
+            </button>
+          </li>
+          <div class="border-t border-gray-100 dark:border-slate-700 my-1"></div>
+          <li>
+            <button (click)="changeSort('-ratingsAverage')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+              <i class="fas fa-star w-5 text-yellow-500 opacity-80"></i>
+              {{ 'SORTING.RATING_HIGH' | translate }}
+            </button>
+          </li>
+          <li>
+            <button (click)="changeSort('ratingsAverage')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+              <i class="far fa-star w-5 text-yellow-500 opacity-80"></i>
+              {{ 'SORTING.RATING_LOW' | translate }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  @if (productList().length > 0) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      @for (product of productList(); track product._id) {
+        <app-card [product]="product"></app-card>
+      }
+    </div>
+  } @else {
+    <div class="text-center py-20 rounded-3xl border border-dashed border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50">
+      <p class="text-xl font-medium text-gray-500 dark:text-gray-400">
+        {{ 'CATEGORY.EMPTY' | translate }}
+      </p>
+      <button
+        routerLink="/categories"
+        class="mt-6 inline-flex items-center px-6 py-2 bg-emerald-600 text-white rounded-full hover:bg-emerald-700 transition"
+      >
+        {{ 'CATEGORY.BACK' | translate }}
+      </button>
+    </div>
+  }
+  </div>
+</section>

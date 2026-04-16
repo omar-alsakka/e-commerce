@@ -1,0 +1,177 @@
+<div class="min-h-[80vh] pb-12 transition-colors duration-300">
+
+  <div class="bg-emerald-600 dark:bg-emerald-700 h-48 text-white relative flex items-center justify-center">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto pt-12 px-6">
+    <div class="mb-8">
+       <h1 class="text-4xl font-black tracking-tight text-gray-900 dark:text-white">{{ 'SETTINGS.MY_ACCOUNT' | translate }}</h1>
+       <p class="text-gray-500 dark:text-gray-400 mt-1 text-lg">{{ 'SETTINGS.MANAGE_PROFILE' | translate }}</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <aside class="lg:col-span-3 space-y-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+          <div class="p-4 border-b border-gray-50 dark:border-slate-700/50">
+            <h3 class="font-bold text-gray-900 dark:text-white px-2">{{ 'SETTINGS.MY_ACCOUNT' | translate }}</h3>
+          </div>
+          <nav class="p-2">
+            <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold transition-all">
+              <span class="flex items-center gap-3">
+                <i class="fas fa-cog"></i>
+                {{ 'SETTINGS.SETTINGS_TITLE' | translate }}
+              </span>
+              <i class="fas fa-chevron-right text-xs"></i>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="lg:col-span-9 space-y-8">
+
+        <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+          <div class="bg-gray-50/50 dark:bg-slate-700/30 p-8 border-b border-gray-100 dark:border-slate-700">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <i class="fas fa-user-edit text-xl"></i>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ 'SETTINGS.PROFILE_INFO' | translate }}</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'SETTINGS.UPDATE_DETAILS' | translate }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">{{ 'SETTINGS.FULL_NAME' | translate }}</label>
+                  <input 
+                    type="text" 
+                    formControlName="name"
+                    [placeholder]="'SETTINGS.ENTER_NAME_PLACEHOLDER' | translate"
+                    class="w-full px-5 py-3 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  >
+                  @if (profileForm.get('name')?.touched && profileForm.get('name')?.errors) {
+                    <p class="text-xs text-red-500 ml-1">{{ 'SETTINGS.NAME_ERROR' | translate }}</p>
+                  }
+                </div>
+
+                <div class="space-y-2">
+                  <label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">{{ 'SETTINGS.EMAIL_ADDRESS' | translate }}</label>
+                  <input 
+                    type="email" 
+                    formControlName="email"
+                    [placeholder]="'SETTINGS.EMAIL_PLACEHOLDER' | translate"
+                    class="w-full px-5 py-3 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  >
+                  @if (profileForm.get('email')?.touched && profileForm.get('email')?.errors) {
+                    <p class="text-xs text-red-500 ml-1">{{ 'SETTINGS.EMAIL_ERROR' | translate }}</p>
+                  }
+                </div>
+
+                <div class="space-y-2 md:col-span-2">
+                  <label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">{{ 'SETTINGS.PHONE_NUMBER' | translate }}</label>
+                  <input 
+                    type="tel" 
+                    formControlName="phone"
+                    [placeholder]="'SETTINGS.PHONE_PLACEHOLDER' | translate"
+                    class="w-full px-5 py-3 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  >
+                  @if (profileForm.get('phone')?.touched && profileForm.get('phone')?.errors) {
+                    <p class="text-xs text-red-500 ml-1">{{ 'SETTINGS.PHONE_ERROR' | translate }}</p>
+                  }
+                </div>
+              </div>
+
+              <div class="pt-4">
+                <button 
+                  type="submit"
+                  [disabled]="isLoadingProfile()"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-10 rounded-xl transition-all shadow-lg shadow-emerald-600/20 flex items-center gap-2"
+                >
+                  <i class="fas" [class.fa-save]="!isLoadingProfile()" [class.fa-spinner]="isLoadingProfile()" [class.fa-spin]="isLoadingProfile()"></i>
+                  {{ isLoadingProfile() ? ('SETTINGS.SAVING' | translate) : ('SETTINGS.SAVE_CHANGES' | translate) }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+          <div class="bg-amber-50/50 dark:bg-slate-700/30 p-8 border-b border-gray-100 dark:border-slate-700">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <i class="fas fa-lock text-xl"></i>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ 'SETTINGS.CHANGE_PASSWORD' | translate }}</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'SETTINGS.UPDATE_PASSWORD' | translate }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="space-y-6">
+              <div class="space-y-2">
+                <label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">{{ 'SETTINGS.CURRENT_PASSWORD' | translate }}</label>
+                <div class="relative">
+                  <input 
+                    type="password" 
+                    formControlName="currentPassword"
+                    [placeholder]="'SETTINGS.CURRENT_PASSWORD_PLACEHOLDER' | translate"
+                    class="w-full px-5 py-3 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  >
+                  <i class="far fa-eye absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">{{ 'SETTINGS.NEW_PASSWORD' | translate }}</label>
+                  <input 
+                    type="password" 
+                    formControlName="password"
+                    [placeholder]="'SETTINGS.NEW_PASSWORD_PLACEHOLDER' | translate"
+                    class="w-full px-5 py-3 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  >
+                  <p class="text-[10px] text-gray-400 ml-1">{{ 'SETTINGS.PASSWORD_LENGTH' | translate }}</p>
+                </div>
+
+                <div class="space-y-2">
+                  <label class="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">{{ 'SETTINGS.CONFIRM_PASSWORD' | translate }}</label>
+                  <input 
+                    type="password" 
+                    formControlName="rePassword"
+                    [placeholder]="'SETTINGS.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
+                    class="w-full px-5 py-3 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-900 dark:text-white outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  >
+                </div>
+              </div>
+
+              @if (passwordForm.errors?.['mismatch'] && passwordForm.get('rePassword')?.touched) {
+                <p class="text-xs text-red-500 ml-1">{{ 'SETTINGS.PASSWORD_MISMATCH' | translate }}</p>
+              }
+
+              <div class="pt-4">
+                <button 
+                  type="submit"
+                  [disabled]="isLoadingPassword()"
+                  class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 px-10 rounded-xl transition-all shadow-lg shadow-amber-600/20 flex items-center gap-2"
+                >
+                  <i class="fas" [class.fa-key]="!isLoadingPassword()" [class.fa-spinner]="isLoadingPassword()" [class.fa-spin]="isLoadingPassword()"></i>
+                  {{ isLoadingPassword() ? ('SETTINGS.UPDATING' | translate) : ('SETTINGS.CHANGE_PASSWORD' | translate) }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</div>

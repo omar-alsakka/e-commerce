@@ -1,0 +1,185 @@
+<section
+  class="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 lg:py-16 flex flex-col lg:flex-row justify-between gap-12 lg:gap-20"
+>
+
+  <div class="w-full lg:w-1/2 flex flex-col items-center text-center space-y-8">
+    <img
+      src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800"
+      alt="Fresh Groceries in a Cart"
+      class="w-full max-w-md rounded-2xl shadow-sm object-cover aspect-4/3"
+    />
+
+    <div class="space-y-4">
+      <h1 class="text-3xl font-bold text-slate-800 leading-tight">
+        {{ 'LOGIN.PAGE_TITLE' | translate }}
+      </h1>
+      <p class="text-gray-600 max-w-md mx-auto leading-relaxed">
+        {{ 'LOGIN.PAGE_SUBTITLE' | translate }}
+      </p>
+    </div>
+
+    <ul class="flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-gray-700">
+      <li class="flex items-center gap-2">
+        <i class="fa-solid fa-truck text-green-600"></i> {{ 'LOGIN.FREE_DELIVERY' | translate }}
+      </li>
+      <li class="flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved text-green-600"></i> {{ 'LOGIN.SECURE_PAYMENT' | translate }}
+      </li>
+      <li class="flex items-center gap-2">
+        <i class="fa-solid fa-clock text-green-600"></i> {{ 'LOGIN.SUPPORT_247' | translate }}
+      </li>
+    </ul>
+  </div>
+
+  <div
+    class="w-full lg:w-1/2 max-w-lg mx-auto lg:mx-0 bg-white rounded-2xl shadow-xl shadow-black/5 border border-gray-100 p-8 sm:p-10"
+  >
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-green-600 mb-3 tracking-tight">
+        Fresh<span class="text-secondary">Cart</span>
+      </h2>
+      <h3 class="text-xl font-bold text-slate-800">{{ 'LOGIN.WELCOME_BACK' | translate }}</h3>
+      <p class="text-sm text-gray-500 mt-1">{{ 'LOGIN.SIGNIN_SUBTITLE' | translate }}</p>
+    </div>
+
+    <div class="space-y-3 mb-8">
+      <button
+        type="button"
+        class="w-full flex items-center justify-center gap-3 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-gray-50 transition shadow-sm"
+      >
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google" />
+        {{ 'LOGIN.CONTINUE_GOOGLE' | translate }}
+      </button>
+
+      <button
+        type="button"
+        class="w-full flex items-center justify-center gap-3 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-gray-50 transition shadow-sm"
+      >
+        <i class="fa-brands fa-facebook text-blue-600 text-xl"></i>
+        {{ 'LOGIN.CONTINUE_FACEBOOK' | translate }}
+      </button>
+
+      <div class="relative flex items-center justify-center py-4">
+        <div class="absolute inset-0 flex items-center outline-none">
+          <div class="w-full border-t border-gray-100"></div>
+        </div>
+        <span class="relative px-4 text-[10px] font-bold text-gray-400 bg-white uppercase tracking-widest"
+          >{{ 'LOGIN.OR_EMAIL' | translate }}</span
+        >
+      </div>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="space-y-5">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5"
+          >{{ 'LOGIN.EMAIL_LABEL' | translate }}</label
+        >
+        <div class="relative">
+          <i
+            class="fa-regular fa-envelope text-gray-400 absolute left-4 top-1/2 -translate-y-1/2"
+          ></i>
+          <input
+            formControlName="email"
+            id="email"
+            type="email"
+            autocomplete="email"
+            [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
+            class="w-full pl-11 pr-4 py-2.5 rounded-lg border border-gray-200 outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 text-sm text-gray-800 placeholder:text-gray-400 transition"
+          />
+          @let emailControl = loginForm.get('email');
+
+          @if (emailControl?.invalid && emailControl?.touched) {
+            <div
+              class="flex p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+              role="alert"
+            >
+              <span class="sr-only">{{ 'COMMON.DANGER' | translate }}</span>
+              <div>
+                <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                  @if (emailControl?.hasError('required')) {
+                    <li>{{ 'LOGIN.EMAIL_REQUIRED' | translate }}</li>
+                  }
+                  @if (emailControl?.hasError('email')) {
+                    <li>{{ 'LOGIN.EMAIL_INVALID' | translate }}</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1.5">
+          <label for="password" class="block text-sm font-medium text-gray-700">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label>
+          <a routerLink="/forgot" class="text-sm text-green-600 hover:underline font-medium"
+            >{{ 'LOGIN.FORGOT_PASSWORD' | translate }}</a
+          >
+        </div>
+        <div class="relative">
+          <i class="fa-solid fa-lock text-gray-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+          <input
+            formControlName="password"
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
+            class="w-full pl-11 pr-11 py-2.5 rounded-lg border border-gray-200 outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600 text-sm text-gray-800 placeholder:text-gray-400 transition"
+          />
+          @let passwordControl = loginForm.get('password');
+
+          @if (passwordControl?.invalid && passwordControl?.touched) {
+            <div
+              class="flex p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+              role="alert"
+            >
+              <span class="sr-only">{{ 'COMMON.DANGER' | translate }}</span>
+              <div>
+                <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                  @if (passwordControl?.hasError('required')) {
+                    <li>{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</li>
+                  }
+                  @if (passwordControl?.hasError('pattern')) {
+                    <li>{{ 'LOGIN.PASSWORD_PATTERN' | translate }}</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button
+          type="submit"
+          class="w-full cursor-pointer bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition duration-200"
+        >
+          {{ 'LOGIN.SIGN_IN' | translate }}
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-8 text-center space-y-6">
+      <p class="text-sm text-gray-600">
+        {{ 'LOGIN.NEW_TO' | translate }}
+        <a routerLink="/register" class="text-green-600 font-medium hover:underline"
+          >{{ 'LOGIN.CREATE_ACCOUNT' | translate }}</a
+        >
+      </p>
+
+      <div
+        class="flex items-center justify-center gap-5 text-xs text-gray-500 pt-2 border-t border-gray-50"
+      >
+        <span class="flex items-center gap-1.5"
+          ><i class="fa-solid fa-lock text-gray-400"></i> {{ 'LOGIN.SSL_SECURED' | translate }}</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><i class="fa-solid fa-users text-gray-400"></i> {{ 'LOGIN.USERS' | translate }}</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><i class="fa-solid fa-star text-gray-400"></i> {{ 'LOGIN.RATING' | translate }}</span
+        >
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,81 @@
+@if (brandName()) {
+  <app-banner 
+    [title]="brandName() + ' ' + ('BRANDS.COLLECTION_WORD' | translate)" 
+    [subtitle]="('BRANDS.DISCOVER' | translate) + ' ' + brandName()" 
+    [breadcrumb]="('BRANDS.BREADCRUMB' | translate) + ' / ' + brandName()" 
+    icon="brands" 
+    theme="purple"
+  ></app-banner>
+} @else {
+  <app-banner 
+    [title]="'BRANDS.BRAND_PRODUCTS' | translate" 
+    [subtitle]="'BRANDS.LOADING_PRODUCTS' | translate" 
+    [breadcrumb]="'BRANDS.BREADCRUMB' | translate" 
+    icon="brands" 
+    theme="purple"
+  ></app-banner>
+}
+
+<div class="max-w-7xl mx-auto my-12 px-4">
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-slate-900 dark:text-white transition-colors">{{ 'BRANDS.BRAND_PRODUCTS' | translate }}</h1>
+      <p class="text-sm text-gray-500 mt-1 uppercase tracking-wider">{{ productList().length }} {{ 'BRANDS.AVAILABLE' | translate }}</p>
+    </div>
+    <div class="flex flex-wrap items-center gap-2 text-sm">
+
+      <button 
+        id="dropdownBrandSortButton" 
+        data-dropdown-toggle="dropdownBrandSort" 
+        class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-slate-700 text-slate-600 dark:text-gray-300 font-medium"
+        type="button"
+      >
+        <i class="fas fa-sort-amount-down text-purple-600"></i>
+        <span>{{ 'SORTING.TITLE' | translate }}</span>
+        <i class="fas fa-chevron-down text-xs ml-1 opacity-50"></i>
+      </button>
+
+      <div id="dropdownBrandSort" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-xl shadow-xl w-56 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 overflow-hidden mt-2">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-300" aria-labelledby="dropdownBrandSortButton">
+          <li>
+            <button (click)="changeSort('price')" class="flex w-full items-center px-4 py-3 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 transition-colors">
+              <i class="fas fa-sort-numeric-down w-5 opacity-50"></i>
+              {{ 'SORTING.PRICE_LOW_HIGH' | translate }}
+            </button>
+          </li>
+          <li>
+            <button (click)="changeSort('-price')" class="flex w-full items-center px-4 py-3 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 transition-colors">
+              <i class="fas fa-sort-numeric-up w-5 opacity-50"></i>
+              {{ 'SORTING.PRICE_HIGH_LOW' | translate }}
+            </button>
+          </li>
+          <div class="border-t border-gray-100 dark:border-slate-700 my-1"></div>
+          <li>
+            <button (click)="changeSort('-ratingsAverage')" class="flex w-full items-center px-4 py-3 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 transition-colors">
+              <i class="fas fa-star w-5 text-yellow-500 opacity-80"></i>
+              {{ 'SORTING.RATING_HIGH' | translate }}
+            </button>
+          </li>
+          <li>
+            <button (click)="changeSort('ratingsAverage')" class="flex w-full items-center px-4 py-3 hover:bg-purple-50 dark:hover:bg-slate-700 hover:text-purple-600 transition-colors">
+              <i class="far fa-star w-5 text-yellow-500 opacity-80"></i>
+              {{ 'SORTING.RATING_LOW' | translate }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  @if (productList().length > 0) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      @for (product of productList(); track product._id) {
+        <app-card [product]="product"></app-card>
+      }
+    </div>
+  } @else {
+    <div class="text-center py-20 text-gray-500">
+      <p class="text-2xl">{{ 'BRANDS.NO_PRODUCTS' | translate }}</p>
+    </div>
+  }
+</div>

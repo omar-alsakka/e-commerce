@@ -1,0 +1,232 @@
+<section class="min-h-screen bg-slate-50/50 dark:bg-slate-900/50 pb-20">
+  
+  <div class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 pt-6 pb-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex mb-4 text-sm font-medium" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <li class="inline-flex items-center">
+            <a routerLink="/" class="text-gray-500 hover:text-emerald-600 transition-colors">{{ 'SEARCH.BREADCRUMB_HOME' | translate }}</a>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <i class="fas fa-chevron-right text-gray-400 text-xs mx-1"></i>
+              <span class="text-gray-900 dark:text-gray-100 ml-1 md:ml-2">{{ 'SEARCH.BREADCRUMB_SEARCH' | translate }}</span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="max-w-3xl mx-auto pb-6 relative group text-center">
+        <div class="relative inline-block w-full">
+          <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-600 transition-colors"></i>
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchInput()"
+            [placeholder]="'SEARCH.PLACEHOLDER' | translate" 
+            class="w-full bg-slate-50 dark:bg-slate-700/50 border-gray-200 dark:border-gray-600 rounded-2xl py-4 pl-14 pr-6 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none text-lg shadow-sm"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <aside class="w-full lg:w-72 shrink-0 space-y-8">
+
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center justify-between">
+            <span>{{ 'SEARCH.CATEGORIES' | translate }}</span>
+            <i class="fas fa-layer-group text-emerald-600"></i>
+          </h3>
+          <div class="max-h-64 overflow-y-auto custom-scrollbar pr-2 space-y-3">
+            @for (cat of categories(); track cat._id) {
+              <label class="flex items-center group cursor-pointer">
+                <div class="relative flex items-center">
+                  <input 
+                    type="checkbox" 
+                    [checked]="selectedCategories().includes(cat._id)"
+                    (change)="toggleCategory(cat._id)"
+                    class="peer h-5 w-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 transition-all cursor-pointer appearance-none border-2 checked:bg-emerald-600 checked:border-emerald-600"
+                  >
+                  <i class="fas fa-check absolute opacity-0 peer-checked:opacity-100 text-white text-xs left-1 pointer-events-none transition-opacity"></i>
+                </div>
+                <span class="ml-3 text-slate-600 dark:text-slate-300 group-hover:text-emerald-600 transition-colors">{{ 'CATEGORIES.' + cat.name | translate }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center justify-between">
+            <span>{{ 'SEARCH.PRICE_RANGE' | translate }}</span>
+            <i class="fas fa-tags text-emerald-600"></i>
+          </h3>
+          
+          <div class="flex items-center gap-3 mb-6">
+            <div class="relative flex-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase">{{ 'SEARCH.MIN' | translate }}</span>
+              <input 
+                type="number" 
+                [(ngModel)]="minPrice"
+                (ngModelChange)="currentPage.set(1)"
+                class="w-full pt-6 pb-2 px-3 bg-slate-50 dark:bg-slate-700/50 border-gray-100 dark:border-gray-600 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 text-sm font-medium"
+              >
+            </div>
+            <div class="relative flex-1">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase">{{ 'SEARCH.MAX' | translate }}</span>
+              <input 
+                type="number" 
+                [(ngModel)]="maxPrice"
+                (ngModelChange)="currentPage.set(1)"
+                class="w-full pt-6 pb-2 px-3 bg-slate-50 dark:bg-slate-700/50 border-gray-100 dark:border-gray-600 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/20 text-sm font-medium"
+              >
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button (click)="setPriceRange(null, 500)" class="text-xs py-2 px-3 border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 hover:border-emerald-200 transition-all font-medium">{{ 'SEARCH.UNDER_500' | translate }}</button>
+            <button (click)="setPriceRange(null, 1000)" class="text-xs py-2 px-3 border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 hover:border-emerald-200 transition-all font-medium">{{ 'SEARCH.UNDER_1K' | translate }}</button>
+            <button (click)="setPriceRange(null, 5000)" class="text-xs py-2 px-3 border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 hover:border-emerald-200 transition-all font-medium">{{ 'SEARCH.UNDER_5K' | translate }}</button>
+            <button (click)="setPriceRange(null, 10000)" class="text-xs py-2 px-3 border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 hover:border-emerald-200 transition-all font-medium">{{ 'SEARCH.UNDER_10K' | translate }}</button>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-5 flex items-center justify-between">
+            <span>{{ 'SEARCH.BRANDS' | translate }}</span>
+            <i class="fas fa-copyright text-emerald-600"></i>
+          </h3>
+          <div class="max-h-64 overflow-y-auto custom-scrollbar pr-2 space-y-3">
+            @for (brand of brands(); track brand._id) {
+              <label class="flex items-center group cursor-pointer">
+                <div class="relative flex items-center">
+                  <input 
+                    type="checkbox" 
+                    [checked]="selectedBrands().includes(brand._id)"
+                    (change)="toggleBrand(brand._id)"
+                    class="peer h-5 w-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 transition-all cursor-pointer appearance-none border-2 checked:bg-emerald-600 checked:border-emerald-600"
+                  >
+                  <i class="fas fa-check absolute opacity-0 peer-checked:opacity-100 text-white text-xs left-1 pointer-events-none transition-opacity"></i>
+                </div>
+                <span class="ml-3 text-slate-600 dark:text-slate-300 group-hover:text-emerald-600 transition-colors">{{ 'BRANDS_LIST.' + brand.name | translate }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <button 
+          (click)="clearFilters()"
+          class="w-full py-4 text-gray-500 hover:text-emerald-600 font-bold transition-colors flex items-center justify-center gap-2"
+        >
+          <i class="fas fa-redo-alt"></i>
+          {{ 'SEARCH.CLEAR_ALL' | translate }}
+        </button>
+      </aside>
+
+      <main class="flex-1">
+
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+          <div class="flex items-center gap-4">
+            <div class="flex items-center p-1 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+              <button 
+                (click)="viewMode.set('grid')"
+                [class.bg-emerald-600]="viewMode() === 'grid'"
+                [class.text-white]="viewMode() === 'grid'"
+                class="p-2 w-10 rounded-lg transition-all"
+              >
+                <i class="fas fa-th-large"></i>
+              </button>
+              <button 
+                (click)="viewMode.set('list')"
+                [class.bg-emerald-600]="viewMode() === 'list'"
+                [class.text-white]="viewMode() === 'list'"
+                class="p-2 w-10 rounded-lg transition-all"
+              >
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+            <p class="text-slate-500 font-medium">
+              {{ 'SEARCH.SHOWING' | translate }} <span class="text-slate-900 dark:text-white font-bold">{{ filteredCount() }}</span> {{ 'SEARCH.PRODUCTS' | translate }}
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-500 font-medium">{{ 'SEARCH.SORT_BY' | translate }}</span>
+            <select 
+              (change)="changeSort($any($event.target).value)"
+              class="bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-slate-700 dark:text-slate-300 rounded-xl py-2 px-4 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium cursor-pointer"
+            >
+              <option value="relevance">{{ 'SEARCH.RELEVANCE' | translate }}</option>
+              <option value="price">{{ 'SEARCH.PRICE_LOW' | translate }}</option>
+              <option value="-price">{{ 'SEARCH.PRICE_HIGH' | translate }}</option>
+              <option value="-ratingsAverage">{{ 'SEARCH.TOP_RATED' | translate }}</option>
+            </select>
+          </div>
+        </div>
+
+        @if (loading()) {
+          <div class="flex flex-col items-center justify-center py-20 space-y-4">
+            <div class="w-12 h-12 border-4 border-emerald-600/20 border-t-emerald-600 rounded-full animate-spin"></div>
+            <p class="text-gray-500 font-medium italic">{{ 'SEARCH.LOADING' | translate }}</p>
+          </div>
+        } @else {
+          <div 
+            [class]="viewMode() === 'grid' 
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' 
+              : 'space-y-4'"
+          >
+            @for (product of filteredProducts(); track product._id) {
+              <app-card [product]="product"></app-card>
+            }
+          </div>
+
+          @if (filteredProducts().length === 0) {
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-12 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+              <div class="w-24 h-24 bg-slate-50 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-search text-4xl text-gray-300"></i>
+              </div>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">{{ 'SEARCH.NO_PRODUCTS' | translate }}</h2>
+              <p class="text-gray-500 mb-8 max-w-sm mx-auto">{{ 'SEARCH.NO_PRODUCTS_DESC' | translate }}</p>
+              <button (click)="clearFilters()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20">{{ 'SEARCH.RESET_FILTERS' | translate }}</button>
+            </div>
+          }
+
+          @if (pages().length > 1) {
+            <nav class="mt-16 flex items-center justify-center gap-3">
+              <button 
+                [disabled]="currentPage() === 1"
+                (click)="goToPage(currentPage() - 1)"
+                class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 disabled:opacity-50 transition-all"
+              >
+                <i class="fas fa-chevron-left text-xs"></i>
+              </button>
+
+              @for (page of pages(); track page) {
+                <button 
+                  (click)="goToPage(page)"
+                  [class]="currentPage() === page 
+                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 font-bold' 
+                    : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 font-medium'"
+                  class="w-10 h-10 flex items-center justify-center rounded-xl transition-all"
+                >
+                  {{ page }}
+                </button>
+              }
+
+              <button 
+                [disabled]="currentPage() === pages().length"
+                (click)="goToPage(currentPage() + 1)"
+                class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 disabled:opacity-50 transition-all"
+              >
+                <i class="fas fa-chevron-right text-xs"></i>
+              </button>
+            </nav>
+          }
+        }
+      </main>
+    </div>
+  </div>
+</section>

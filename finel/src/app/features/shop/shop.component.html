@@ -1,0 +1,109 @@
+<app-banner 
+  [title]="'SHOP.ALL_PRODUCTS' | translate" 
+  [subtitle]="'SHOP.EXPLORE' | translate" 
+  [breadcrumb]="'SHOP.BREADCRUMB' | translate" 
+  icon="products" 
+  theme="green"
+></app-banner>
+
+<section class="py-10 relative overflow-hidden">
+
+  <i class="fas fa-tshirt floating-icon float-1 text-7xl hidden md:block" style="top: 15%; left: 5%;"></i>
+  <i class="fas fa-shoe-prints floating-icon float-2 text-6xl hidden md:block" style="top: 45%; left: 8%;"></i>
+  <i class="fas fa-ticket-alt floating-icon float-3 text-8xl hidden md:block" style="top: 75%; left: 3%;"></i>
+
+  <i class="fas fa-gamepad floating-icon float-4 text-8xl hidden md:block" style="top: 20%; right: 6%;"></i>
+  <i class="fas fa-shopping-bag floating-icon float-5 text-7xl hidden lg:block" style="top: 50%; right: 4%;"></i>
+  <i class="fas fa-glasses floating-icon float-6 text-6xl hidden md:block" style="top: 80%; right: 7%;"></i>
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white transition-colors">
+          {{ 'SHOP.ALL_PRODUCTS' | translate }}
+        </h2>
+        <p class="text-sm text-gray-500">{{ 'CATEGORY.SHOWING' | translate }} {{ total() }} {{ 'CATEGORY.PRODUCTS' | translate | lowercase }}</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 text-sm">
+
+        <button 
+          id="dropdownShopSortButton" 
+          data-dropdown-toggle="dropdownShopSort" 
+          class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 shadow-sm transition-all hover:bg-gray-50 dark:hover:bg-slate-700 text-slate-600 dark:text-gray-300 font-medium"
+          type="button"
+        >
+          <i class="fas fa-sort-amount-down text-emerald-600"></i>
+          <span>{{ 'SORTING.TITLE' | translate }}</span>
+          <i class="fas fa-chevron-down text-xs ml-1 opacity-50"></i>
+        </button>
+
+        <div id="dropdownShopSort" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-xl shadow-xl w-56 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 overflow-hidden mt-2">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-300" aria-labelledby="dropdownShopSortButton">
+            <li>
+              <button (click)="changeSort('price')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+                <i class="fas fa-sort-numeric-down w-5 opacity-50"></i>
+                {{ 'SORTING.PRICE_LOW_HIGH' | translate }}
+              </button>
+            </li>
+            <li>
+              <button (click)="changeSort('-price')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+                <i class="fas fa-sort-numeric-up w-5 opacity-50"></i>
+                {{ 'SORTING.PRICE_HIGH_LOW' | translate }}
+              </button>
+            </li>
+            <div class="border-t border-gray-100 dark:border-slate-700 my-1"></div>
+            <li>
+              <button (click)="changeSort('-ratingsAverage')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+                <i class="fas fa-star w-5 text-yellow-500 opacity-80"></i>
+                {{ 'SORTING.RATING_HIGH' | translate }}
+              </button>
+            </li>
+            <li>
+              <button (click)="changeSort('ratingsAverage')" class="flex w-full items-center px-4 py-3 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-600 transition-colors">
+                <i class="far fa-star w-5 text-yellow-500 opacity-80"></i>
+                {{ 'SORTING.RATING_LOW' | translate }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+      @for (product of productList(); track product._id) {
+        <app-card [product]="product"></app-card>
+      }
+    </div>
+
+    <nav class="mt-8 flex flex-wrap items-center justify-center gap-2">
+      <button
+        class="rounded-md border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+        [disabled]="cp() === 1"
+        (click)="prevPage()"
+      >
+        {{ 'SHOP.PREVIOUS' | translate }}
+      </button>
+
+      @for (page of pages(); track page) {
+        <button
+          class="rounded-md px-3 py-2 text-sm font-medium transition-colors duration-150"
+          [class]="
+            page === cp() ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700'
+          "
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      }
+
+      <button
+        class="rounded-md border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+        [disabled]="cp() === pages().length"
+        (click)="nextPage()"
+      >
+        {{ 'SHOP.NEXT' | translate }}
+      </button>
+    </nav>
+  </div>
+</section>
