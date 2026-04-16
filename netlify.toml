@@ -1,19 +1,8 @@
-[build]
-  # The directory to change to before starting the build
-  base = "finel"
-  
-  # The command to run to build the site
-  command = "npm run build"
-  
-  # The directory (relative to base) that contains the deploy-ready assets
-  publish = "dist/finel/browser"
-
-[build.environment]
-  # Ensure the correct Node.js version is used
-  NODE_VERSION = "20"
-
-# Fix for Angular routing (SPA)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[build]
+  publish = "finel/dist/finel/browser"
+  command = "npm run build"
