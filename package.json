@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "cd finel && npm run build"
+  },
   "dependencies": {
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0"
