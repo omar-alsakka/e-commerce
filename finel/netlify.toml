@@ -1,9 +1,6 @@
+[[plugins]]
+  package = "@netlify/angular-runtime"
+
 [build]
   command = "npm run build"
   publish = "dist/finel/browser"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true
