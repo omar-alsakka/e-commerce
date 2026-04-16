@@ -1,8 +1,0 @@
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[build]
-  publish = "finel/dist/finel/browser"
-  command = "npm run build"
